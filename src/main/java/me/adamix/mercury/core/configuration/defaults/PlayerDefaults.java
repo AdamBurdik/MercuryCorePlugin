@@ -1,8 +1,10 @@
 package me.adamix.mercury.core.configuration.defaults;
 
+import lombok.Getter;
 import me.adamix.mercury.core.MercuryCorePlugin;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
@@ -12,6 +14,8 @@ import java.io.File;
  * Data is loaded from /defaults/player.toml.
  */
 public class PlayerDefaults {
+	@Getter
+	private static @NotNull String translationId = "en";
 
 	public static void load(@NotNull String folderPath) {
 		File file = new File(folderPath + "defaults/player.toml");
@@ -21,6 +25,9 @@ public class PlayerDefaults {
 		}
 		MercuryConfiguration configuration = new MercuryConfiguration(file);
 
-		// ToDO Add default data
+		@Nullable String rawTranslationId = configuration.getString("translation_id");
+		if (rawTranslationId != null) {
+			translationId = rawTranslationId;
+		}
 	}
 }
