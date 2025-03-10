@@ -1,0 +1,6 @@
+name: MercuryCore
+version: 0.1.0
+main: me.adamix.mercury.core.MercuryCorePlugin
+description: Mercury Core Plugin
+author: ADAM_4644
+api-version: '1.21.4'
