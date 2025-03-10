@@ -4,6 +4,7 @@ import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
 import me.adamix.mercury.core.item.ItemManager;
 import me.adamix.mercury.core.item.blueprint.ItemBlueprintManager;
+import me.adamix.mercury.core.placeholder.PlaceholderManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
@@ -16,6 +17,7 @@ public class MercuryCore {
 	private static TranslationManager translationManager;
 	private static ItemBlueprintManager blueprintManager;
 	private static ItemManager itemManager;
+	private static PlaceholderManager placeholderManager;
 
 	/**
 	 * Loads all necessary data for core plugin.
@@ -35,6 +37,8 @@ public class MercuryCore {
 		blueprintManager = new ItemBlueprintManager();
 		blueprintManager.loadAllItems(MercuryCorePlugin.getFolderPath());
 		itemManager = new ItemManager();
+
+		placeholderManager = new PlaceholderManager();
 	}
 
 	/**
@@ -82,6 +86,11 @@ public class MercuryCore {
 	@ApiStatus.Internal
 	public static ItemManager itemManager() {
 		return itemManager;
+	}
+
+	@ApiStatus.Internal
+	public static PlaceholderManager placeholderManager() {
+		return placeholderManager;
 	}
 
 	public static void stopServer(@NonNull String reason) {
