@@ -32,7 +32,7 @@ public abstract class MercuryToml {
 	public abstract @Nullable Pos getPos(@NotNull String dottedKey);
 	public abstract @NotNull String getName();
 
-	public @Nullable Key getNamespacedID(@NotNull String dottedKey) {
+	public @Nullable Key getKey(@NotNull String dottedKey) {
 		String value = getString(dottedKey);
 		if (value == null) {
 			return null;
@@ -40,9 +40,9 @@ public abstract class MercuryToml {
 		return Key.key(value);
 	}
 
-	public @NotNull Key getNamespacedIDSafe(@NotNull String dottedKey) {
+	public @NotNull Key getKeySafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
-		Key value = getNamespacedID(dottedKey);
+		Key value = getKey(dottedKey);
 		Objects.requireNonNull(value);
 		return value;
 	}
