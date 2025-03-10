@@ -10,11 +10,13 @@ version = "0.1.0"
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/") }
 }
 
 dependencies {
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.tomlj:tomlj:1.1.1")
+    implementation("com.marcusslover:plus:4.3.3-SNAPSHOT")
 
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
@@ -28,6 +30,7 @@ tasks.test {
 }
 
 tasks.shadowJar {
+    archiveClassifier = ""
     archiveVersion.set(project.version.toString())
 }
 
