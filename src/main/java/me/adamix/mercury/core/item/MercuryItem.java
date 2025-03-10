@@ -9,6 +9,7 @@ import me.adamix.mercury.core.item.component.ItemDescriptionComponent;
 import me.adamix.mercury.core.item.component.ItemRarityComponent;
 import me.adamix.mercury.core.item.component.MercuryItemComponent;
 import me.adamix.mercury.core.item.rarity.ItemRarity;
+import me.adamix.mercury.core.placeholder.PlaceholderManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.translation.Translation;
 import net.kyori.adventure.key.Key;
@@ -18,6 +19,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -46,8 +48,6 @@ public record MercuryItem (
 		this.components = components;
 	}
 
-//	private static final Tag<UUID> uniqueIdTag = Tag.UUID("uniqueId");
-
 	public boolean hasComponent(Class<? extends MercuryItemComponent> clazz) {
 		return getComponent(clazz) != null;
 	}
@@ -64,10 +64,9 @@ public record MercuryItem (
 	}
 
 	public @NotNull ItemStack toItemStack(MercuryPlayer player) {
-//		PlaceholderManager placeholderManager = Server.getPlaceholderManager();
-		Translation translation = MercuryCore.getPlayerTranslation(player);
+		PlaceholderManager placeholderManager = MercuryCore.placeholderManager();
 
-		MiniMessage miniMessage = MiniMessage.miniMessage();
+		Translation translation = MercuryCore.getPlayerTranslation(player);
 
 		// Create lore list
 		List<Component> loreList = new ArrayList<>();
@@ -76,8 +75,8 @@ public record MercuryItem (
 		ItemDescriptionComponent itemDescriptionComponent = getComponent(ItemDescriptionComponent.class);
 		if (itemDescriptionComponent != null) {
 			for (String line : itemDescriptionComponent.lines()) {
-//				Component lineComponent = placeholderManager.parse(line, player);
-				loreList.add(miniMessage.deserialize(line));
+				Component lineComponent = placeholderManager.parse(line, player);
+				loreList.add(lineComponent);
 			}
 		}
 
@@ -89,7 +88,7 @@ public record MercuryItem (
 			if (damage != null && attackSpeed != null) {
 				loreList.add(Component.empty());
 				loreList.add(
-						miniMessage.deserialize(translation.get("item.dps") + ": ")
+						Component.text(translation.get("item.dps") + ": ")
 								.color(ColorPallet.GOLD.getColor())
 								.decoration(TextDecoration.ITALIC, false)
 								.append(Component.text(damage.value() * attackSpeed.value())
@@ -132,7 +131,7 @@ public record MercuryItem (
 			ItemRarity rarity = itemRarityComponent.rarity();
 			loreList.add(Component.empty());
 			loreList.add(
-					miniMessage.deserialize(translation.get(rarity.translationKey()).toUpperCase())
+					Component.text(translation.get(rarity.translationKey()).toUpperCase())
 							.color(TextColor.color(129, 21, 13))
 							.decoration(TextDecoration.ITALIC, false)
 							.decoration(TextDecoration.BOLD, true)
@@ -143,11 +142,11 @@ public record MercuryItem (
 		if (player.isDebug()) {
 			loreList.add(Component.empty());
 			loreList.add(
-					miniMessage.deserialize("uniqueId: " + this.uniqueId)
+					Component.text("uniqueId: " + this.uniqueId)
 							.color(ColorPallet.DARK_GRAY.getColor())
 			);
 			loreList.add(
-					miniMessage.deserialize("BlueprintID: " + this.blueprintKey.asString())
+					Component.text("BlueprintID: " + this.blueprintKey.asString())
 							.color(ColorPallet.DARK_GRAY.getColor())
 			);
 			List<String> componentNameArray = new ArrayList<>();
@@ -156,7 +155,7 @@ public record MercuryItem (
 			}
 
 			loreList.add(
-					miniMessage.deserialize("Components: " + componentNameArray)
+					Component.text("Components: " + componentNameArray)
 							.color(ColorPallet.DARK_GRAY.getColor())
 			);
 		}
@@ -164,11 +163,11 @@ public record MercuryItem (
 		ItemStack itemStack = new ItemStack(this.material);
 		ItemMeta meta = itemStack.getItemMeta();
 
-		meta.customName(miniMessage.deserialize(this.name));
+		meta.customName(placeholderManager.parse(this.name, player));
 		meta.lore(loreList);
-//		meta.setHideTooltip(true);
 
 		itemStack.setItemMeta(meta);
+		itemStack.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_DESTROYS);
 
 		return itemStack;
 	}
