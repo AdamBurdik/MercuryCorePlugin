@@ -1,0 +1,26 @@
+package me.adamix.mercury.core.configuration.defaults;
+
+import me.adamix.mercury.core.MercuryCorePlugin;
+import me.adamix.mercury.core.toml.MercuryConfiguration;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+
+/**
+ * Represents default data for most of the configurable stuff.
+ * <br>
+ * Data is loaded from /defaults/player.toml.
+ */
+public class PlayerDefaults {
+
+	public static void load(@NotNull String folderPath) {
+		File file = new File(folderPath + "defaults/player.toml");
+		if (!file.exists()) {
+			MercuryCorePlugin.getCoreLogger().warn("Player default configuration file does not exist! Default hard-coded values will be used instead!");
+			return;
+		}
+		MercuryConfiguration configuration = new MercuryConfiguration(file);
+
+		// ToDO Add default data
+	}
+}
