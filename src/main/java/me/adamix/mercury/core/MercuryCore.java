@@ -2,15 +2,20 @@ package me.adamix.mercury.core;
 
 import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
+import me.adamix.mercury.core.item.ItemManager;
+import me.adamix.mercury.core.item.blueprint.ItemBlueprintManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
+import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 public class MercuryCore {
 	private static MercuryCorePlugin plugin;
 	private static TranslationManager translationManager;
+	private static ItemBlueprintManager blueprintManager;
+	private static ItemManager itemManager;
 
 	/**
 	 * Loads all necessary data for core plugin.
@@ -26,6 +31,10 @@ public class MercuryCore {
 
 		translationManager = new TranslationManager();
 		translationManager.loadAllTranslations(MercuryCorePlugin.getFolderPath());
+
+		blueprintManager = new ItemBlueprintManager();
+		blueprintManager.loadAllItems(MercuryCorePlugin.getFolderPath());
+		itemManager = new ItemManager();
 	}
 
 	/**
@@ -36,17 +45,7 @@ public class MercuryCore {
 	@ApiStatus.Internal
 	public static void unload() {
 		translationManager.unloadTranslations();
-	}
-
-	/**
-	 * Retrieves translation manager instance.
-	 * <br>
-	 * Shouldn't be used outside of core plugin.
-	 * @return {@link TranslationManager} instance.
-	 */
-	@ApiStatus.Internal
-	public static TranslationManager translationManager() {
-		return translationManager;
+		blueprintManager.unloadAllItems();
 	}
 
 	/**
@@ -64,8 +63,33 @@ public class MercuryCore {
 		return translation;
 	}
 
+	/**
+	 * Retrieves translation manager instance.
+	 * <br>
+	 * Shouldn't be used outside of core plugin.
+	 * @return {@link TranslationManager} instance.
+	 */
+	@ApiStatus.Internal
+	public static TranslationManager translationManager() {
+		return translationManager;
+	}
+
+	@ApiStatus.Internal
+	public static ItemBlueprintManager itemBlueprintManager() {
+		return blueprintManager;
+	}
+
+	@ApiStatus.Internal
+	public static ItemManager itemManager() {
+		return itemManager;
+	}
+
 	public static void stopServer(@NonNull String reason) {
 		plugin.getComponentLogger().error("MercuryCore stopped the server! Reason: {}!", reason);
 		plugin.getServer().shutdown();
+	}
+
+	public static NamespacedKey namespacedKey(@NotNull String value) {
+		return new NamespacedKey(plugin, value);
 	}
 }
