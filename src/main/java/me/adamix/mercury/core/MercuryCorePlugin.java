@@ -9,11 +9,12 @@ public class MercuryCorePlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
+		MercuryCore.load(this);
 	}
 
 	@Override
 	public void onDisable() {
-
+		MercuryCore.unload();
 	}
 
 	public static ComponentLogger getCoreLogger() {
