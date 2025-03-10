@@ -6,8 +6,11 @@ import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.exception.TranslationNotFoundException;
 import me.adamix.mercury.core.translation.Translation;
 import net.kyori.adventure.text.Component;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -15,6 +18,7 @@ import java.util.Map;
 public class MercuryPlayer {
 	private final @NotNull Player bukkitPlayer;
 	private @NotNull String translationId;
+	private boolean debug = true;
 
 	public MercuryPlayer(
 			@NotNull Player bukkitPlayer,
@@ -81,5 +85,9 @@ public class MercuryPlayer {
 	 */
 	public void sendMessage(@NotNull Component component) {
 		bukkitPlayer.sendMessage(component);
+	}
+
+	public @Nullable AttributeInstance getBukkitAttribute(@NotNull Attribute bukkitAttribute) {
+		return bukkitPlayer.getAttribute(bukkitAttribute);
 	}
 }
