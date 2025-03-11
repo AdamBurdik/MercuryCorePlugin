@@ -110,7 +110,6 @@ public class ItemBlueprintManager {
 	}
 
 	public @NotNull Optional<MercuryItemBlueprint> get(Key blueprintKey) {
-		MercuryCorePlugin.getCoreLogger().info(String.valueOf(itemBlueprintMap));
 		return Optional.ofNullable(itemBlueprintMap.get(blueprintKey));
 	}
 
