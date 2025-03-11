@@ -9,6 +9,7 @@ import me.adamix.mercury.core.math.Pos;
 import me.adamix.mercury.core.mob.attribute.MobAttributeContainer;
 import me.adamix.mercury.core.mob.component.MercuryMobComponent;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
+import me.adamix.mercury.core.mob.event.EventHandler;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -24,23 +25,27 @@ public class MercuryMob {
 	private final @NotNull EntityType entityType;
 	private final @NotNull String name;
 	private final @NotNull MercuryMobComponent[] components;
+	private final @Nullable EventHandler eventHandler;
 
 	public MercuryMob(
 			@NotNull EntityType entityType,
 			@NotNull String name,
-			@NotNull MercuryMobComponent[] components
+			@NotNull MercuryMobComponent[] components,
+			@Nullable EventHandler eventHandler
 		) {
 		this.entityType = entityType;
 		this.name = name;
 		this.components = components;
+		this.eventHandler = eventHandler;
 	}
 
 	public MercuryMob(
 			@NotNull EntityType entityType,
 			@NotNull String name,
-			@NotNull MobAttributeContainer attributes
+			@NotNull MobAttributeContainer attributes,
+			@Nullable EventHandler eventHandler
 		) {
-		this(entityType, name, new MercuryMobComponent[]{attributes.toComponent()});
+		this(entityType, name, new MercuryMobComponent[]{attributes.toComponent()}, eventHandler);
 	}
 
 	public boolean hasComponent(Class<? extends MercuryMobComponent> clazz) {

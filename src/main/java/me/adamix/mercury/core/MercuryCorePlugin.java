@@ -3,6 +3,7 @@ package me.adamix.mercury.core;
 import com.marcusslover.plus.lib.command.CommandManager;
 import me.adamix.mercury.core.command.ItemCommand;
 import me.adamix.mercury.core.command.SpawnCommand;
+import me.adamix.mercury.core.listener.entity.EntityEventListener;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,6 +20,9 @@ public class MercuryCorePlugin extends JavaPlugin {
 
 		// ToDo Move command registration to different place. Maybe using MercuryCore
 		new CommandManager(this).register(new ItemCommand()).register(new SpawnCommand());
+
+		// ToDO Move event listener registration to different place. Maybe using MercuryCore
+		Bukkit.getPluginManager().registerEvents(new EntityEventListener(), this);
 
 		// ToDo Make something better
 		// Temporary solution for removing vanilla commands

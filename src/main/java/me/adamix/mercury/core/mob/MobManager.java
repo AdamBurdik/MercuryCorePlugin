@@ -1,7 +1,9 @@
 package me.adamix.mercury.core.mob;
 
+import me.adamix.mercury.core.event.mob.MobSpawnEvent;
 import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
+import me.adamix.mercury.core.mob.event.EventHandler;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
@@ -40,6 +42,10 @@ public class MobManager {
 		return blueprintRegistryMap.get(blueprintKey);
 	}
 
+	public @Nullable MercuryMob getMob(@NotNull UUID uuid) {
+		return mobMap.get(uuid);
+	}
+
 	/**
 	 * Spawns a mob in world at specified location
 	 * @param mob mob to spawn
@@ -59,5 +65,9 @@ public class MobManager {
 		});
 		mobMap.put(bukkitMob.getUniqueId(), mob);
 		mob.setBukkitMob(bukkitMob);
+		EventHandler eventHandler = mob.getEventHandler();
+		if (eventHandler != null) {
+			eventHandler.onSpawn(new MobSpawnEvent(mob, location));
+		}
 	}
 }
