@@ -21,28 +21,23 @@ public class MercuryMob {
 	private final @NotNull EntityType entityType;
 	private final @NotNull String name;
 	private final @NotNull MercuryMobComponent[] components;
-	private long currentHealth;
-	private Pos lastPosition;
 
 	public MercuryMob(
 			@NotNull EntityType entityType,
 			@NotNull String name,
-			@NotNull MercuryMobComponent[] components,
-			long currentHealth
+			@NotNull MercuryMobComponent[] components
 		) {
 		this.entityType = entityType;
 		this.name = name;
 		this.components = components;
-		this.currentHealth = currentHealth;
 	}
 
 	public MercuryMob(
 			@NotNull EntityType entityType,
 			@NotNull String name,
-			@NotNull MobAttributeContainer attributes,
-			long currentHealth
-			) {
-		this(entityType, name, new MercuryMobComponent[]{attributes.toComponent()}, currentHealth);
+			@NotNull MobAttributeContainer attributes
+		) {
+		this(entityType, name, new MercuryMobComponent[]{attributes.toComponent()});
 	}
 
 	public boolean hasComponent(Class<? extends MercuryMobComponent> clazz) {
@@ -81,12 +76,5 @@ public class MercuryMob {
 
 		Double maxHealthValue = component.get(MercuryAttribute.MAX_HEALTH);
 		return maxHealthValue != null ? maxHealthValue.floatValue() : 0f;
-	}
-
-	public void damage(long amount) {
-		this.currentHealth -= amount;
-		if (currentHealth < 0) {
-			getBukkitMob().remove();
-		}
 	}
 }
