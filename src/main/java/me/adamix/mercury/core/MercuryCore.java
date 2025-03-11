@@ -6,14 +6,19 @@ import me.adamix.mercury.core.item.ItemManager;
 import me.adamix.mercury.core.item.blueprint.ItemBlueprintManager;
 import me.adamix.mercury.core.placeholder.PlaceholderManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
+import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+
+
 public class MercuryCore {
 	private static MercuryCorePlugin plugin;
+	private static MercuryConfiguration coreConfiguration;
 	private static TranslationManager translationManager;
 	private static ItemBlueprintManager blueprintManager;
 	private static ItemManager itemManager;
@@ -28,6 +33,13 @@ public class MercuryCore {
 	@ApiStatus.Internal
 	public static void load(MercuryCorePlugin plugin) {
 		MercuryCore.plugin = plugin;
+
+		// Create config.toml
+		File file = new File(MercuryCorePlugin.getFolderPath() + "/config.toml");
+		if (!file.exists()) {
+			plugin.saveResource("config.toml", false);
+		}
+		coreConfiguration = new MercuryConfiguration(file);
 
 		PlayerDefaults.load(MercuryCorePlugin.getFolderPath());
 
@@ -91,6 +103,11 @@ public class MercuryCore {
 	@ApiStatus.Internal
 	public static PlaceholderManager placeholderManager() {
 		return placeholderManager;
+	}
+
+	@ApiStatus.Internal
+	public static MercuryConfiguration coreConfiguration() {
+		return coreConfiguration;
 	}
 
 	public static void stopServer(@NonNull String reason) {
