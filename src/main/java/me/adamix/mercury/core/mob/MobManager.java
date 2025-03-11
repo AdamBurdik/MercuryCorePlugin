@@ -12,9 +12,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class MobManager {
 	private final @NotNull Map<Key, MercuryMobBlueprint> blueprintRegistryMap;
+	private final @NotNull Map<UUID, MercuryMob> mobMap = new HashMap<>();
 
 	public MobManager() {
 		this.blueprintRegistryMap = new HashMap<>();
@@ -44,9 +46,7 @@ public class MobManager {
 	 * @param location location where mob should be spawned
 	 */
 	public void spawn(@NotNull MercuryMob mob, @NotNull Location location) {
-		location.getWorld().spawnEntity(location, mob.getEntityType(), CreatureSpawnEvent.SpawnReason.CUSTOM, entity -> {
-			Mob bukkitMob = mob.getBukkitMob();
-
+		 Mob bukkitMob = (Mob) location.getWorld().spawnEntity(location, mob.getEntityType(), CreatureSpawnEvent.SpawnReason.CUSTOM, entity -> {
 			// Apply attributes
 			MobAttributeComponent attributeComponent = mob.getComponent(MobAttributeComponent.class);
 			if (attributeComponent != null) {
@@ -55,7 +55,9 @@ public class MobManager {
 
 			// Apply name
 			// ToDO apply custom name using packets for specified player.
-			bukkitMob.customName(Component.text(mob.getName()));
+			entity.customName(Component.text(mob.getName()));
 		});
+		mobMap.put(bukkitMob.getUniqueId(), mob);
+		mob.setBukkitMob(bukkitMob);
 	}
 }
