@@ -1,6 +1,7 @@
 package me.adamix.mercury.core.mob.blueprint;
 
 import lombok.Data;
+import me.adamix.mercury.core.mob.MercuryMob;
 import me.adamix.mercury.core.mob.attribute.MobAttributeContainer;
 import me.adamix.mercury.core.mob.component.MercuryMobComponent;
 import org.bukkit.entity.EntityType;
@@ -47,5 +48,13 @@ public class MercuryMobBlueprint {
 			}
 		}
 		return null;
+	}
+
+	public @NotNull MercuryMob build() {
+		return new MercuryMob(
+				entityType,
+				name,
+				components
+		);
 	}
 }
