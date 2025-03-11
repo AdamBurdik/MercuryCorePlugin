@@ -3,6 +3,9 @@ package me.adamix.mercury.core;
 import com.marcusslover.plus.lib.command.CommandManager;
 import me.adamix.mercury.core.command.ItemCommand;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MercuryCorePlugin extends JavaPlugin {
@@ -15,6 +18,18 @@ public class MercuryCorePlugin extends JavaPlugin {
 
 		// ToDo Move command registration to different place. Maybe using MercuryCore
 		new CommandManager(this).register(new ItemCommand());
+
+		// ToDo Make something better
+		// Temporary solution for removing vanilla commands
+		CommandMap commandMap = Bukkit.getCommandMap();
+		var knownCommands = commandMap.getKnownCommands();
+		for (String disabledCommand : MercuryCore.coreConfiguration().getArray("disabled_commands").toStringArray()) {
+			Command command = commandMap.getCommand(disabledCommand);
+			if (command != null) {
+				command.unregister(commandMap);
+				knownCommands.remove(disabledCommand);
+			}
+		}
 	}
 
 	@Override
