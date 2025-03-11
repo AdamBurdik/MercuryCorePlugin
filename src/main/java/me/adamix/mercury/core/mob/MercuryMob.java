@@ -1,6 +1,8 @@
 package me.adamix.mercury.core.mob;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.exception.MobNotSpawnedException;
 import me.adamix.mercury.core.math.Pos;
@@ -17,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class MercuryMob {
+	@Setter(AccessLevel.PACKAGE)
 	private @Nullable Mob bukkitMob;
 	private final @NotNull EntityType entityType;
 	private final @NotNull String name;
