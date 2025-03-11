@@ -4,11 +4,14 @@ import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
 import me.adamix.mercury.core.item.ItemManager;
 import me.adamix.mercury.core.item.blueprint.ItemBlueprintManager;
+import me.adamix.mercury.core.mob.MercuryMob;
+import me.adamix.mercury.core.mob.MobManager;
 import me.adamix.mercury.core.placeholder.PlaceholderManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +26,7 @@ public class MercuryCore {
 	private static ItemBlueprintManager blueprintManager;
 	private static ItemManager itemManager;
 	private static PlaceholderManager placeholderManager;
+	private static MobManager mobManager;
 
 	/**
 	 * Loads all necessary data for core plugin.
@@ -51,6 +55,7 @@ public class MercuryCore {
 		itemManager = new ItemManager();
 
 		placeholderManager = new PlaceholderManager();
+		mobManager = new MobManager();
 	}
 
 	/**
@@ -80,9 +85,17 @@ public class MercuryCore {
 	}
 
 	/**
+	 * Spawns a mob in world at specified location
+	 * @param mob mob to spawn
+	 * @param location location where mob should be spawned
+	 */
+	public static void spawnMob(@NotNull MercuryMob mob, @NotNull Location location) {
+		mobManager.spawn(mob, location);
+	}
+
+	/**
 	 * Retrieves translation manager instance.
 	 * <br>
-	 * Shouldn't be used outside of core plugin.
 	 * @return {@link TranslationManager} instance.
 	 */
 	@ApiStatus.Internal
@@ -90,31 +103,70 @@ public class MercuryCore {
 		return translationManager;
 	}
 
+	/**
+	 * Retrieves item blueprint manager instance.
+	 * <br>
+	 * @return {@link ItemBlueprintManager} instance.
+	 */
 	@ApiStatus.Internal
 	public static ItemBlueprintManager itemBlueprintManager() {
 		return blueprintManager;
 	}
 
+	/**
+	 * Retrieves item manager instance.
+	 * <br>
+	 * @return {@link ItemManager} instance.
+	 */
 	@ApiStatus.Internal
 	public static ItemManager itemManager() {
 		return itemManager;
 	}
 
+	/**
+	 * Retrieves placeholder manager instance.
+	 * <br>
+	 * @return {@link PlaceholderManager} instance.
+	 */
 	@ApiStatus.Internal
 	public static PlaceholderManager placeholderManager() {
 		return placeholderManager;
 	}
 
+	/**
+	 * Retrieves mob manager instance.
+	 * @return {@link MobManager} instance.
+	 */
+	@ApiStatus.Internal
+	public static MobManager mobManager() {
+		return mobManager;
+	}
+
+	/**
+	 * Retrieves configuration of core plugin.
+	 * <br>
+	 * @return {@link MercuryConfiguration} instance.
+	 */
 	@ApiStatus.Internal
 	public static MercuryConfiguration coreConfiguration() {
 		return coreConfiguration;
 	}
 
+	/**
+	 * Stops the server with specified reason.
+	 * <br>
+	 * @param reason reason why server was stopped.
+	 */
 	public static void stopServer(@NonNull String reason) {
 		plugin.getComponentLogger().error("MercuryCore stopped the server! Reason: {}!", reason);
 		plugin.getServer().shutdown();
 	}
 
+	/**
+	 * Creates namespacedKey with core plugin as namespace.
+	 * @param value value of namespacedKey
+	 * @return {@link NamespacedKey} instance.
+	 */
 	public static NamespacedKey namespacedKey(@NotNull String value) {
 		return new NamespacedKey(plugin, value);
 	}
