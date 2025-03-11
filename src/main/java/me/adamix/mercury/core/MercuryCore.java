@@ -4,6 +4,7 @@ import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
 import me.adamix.mercury.core.item.ItemManager;
 import me.adamix.mercury.core.item.blueprint.ItemBlueprintManager;
+import me.adamix.mercury.core.mob.DummyMobBlueprint;
 import me.adamix.mercury.core.mob.MercuryMob;
 import me.adamix.mercury.core.mob.MobManager;
 import me.adamix.mercury.core.placeholder.PlaceholderManager;
@@ -11,6 +12,7 @@ import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
+import net.kyori.adventure.key.Key;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
@@ -56,6 +58,8 @@ public class MercuryCore {
 
 		placeholderManager = new PlaceholderManager();
 		mobManager = new MobManager();
+
+		mobManager.registerBlueprint(Key.key("mercury", "test"), new DummyMobBlueprint());
 	}
 
 	/**
