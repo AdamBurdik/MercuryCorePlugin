@@ -1,6 +1,7 @@
 package me.adamix.mercury.core.mob;
 
 import me.adamix.mercury.core.MercuryCore;
+import me.adamix.mercury.core.MercuryCorePlugin;
 import me.adamix.mercury.core.event.mob.MobSpawnEvent;
 import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
@@ -33,6 +34,7 @@ public class MobManager {
 	 * @param mobBlueprint blueprint to register.
 	 */
 	public void registerBlueprint(@NotNull Key blueprintkey, @NotNull MercuryMobBlueprint mobBlueprint) {
+		MercuryCorePlugin.getCoreLogger().info("Entity '{}' has been registered", blueprintkey);
 		blueprintRegistryMap.put(blueprintkey, mobBlueprint);
 	}
 
