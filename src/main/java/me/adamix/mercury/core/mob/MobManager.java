@@ -4,10 +4,12 @@ import me.adamix.mercury.core.event.mob.MobSpawnEvent;
 import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
 import me.adamix.mercury.core.mob.event.EventHandler;
+import me.adamix.mercury.core.player.MercuryPlayer;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,13 +60,16 @@ public class MobManager {
 			if (attributeComponent != null) {
 				attributeComponent.applyToMob(mob);
 			}
-
-			// Apply name
-			// ToDO apply custom name using packets for specified player.
-			entity.customName(Component.text(mob.getName()));
 		});
 		mobMap.put(bukkitMob.getUniqueId(), mob);
 		mob.setBukkitMob(bukkitMob);
+
+		// Apply name
+		for (Player bukkitPlayer : bukkitMob.getTrackedBy()) {
+			MercuryPlayer player = new MercuryPlayer(bukkitPlayer, "en");
+			mob.updateName(player);
+		}
+
 		EventHandler eventHandler = mob.getEventHandler();
 		if (eventHandler != null) {
 			eventHandler.onSpawn(new MobSpawnEvent(mob, location));

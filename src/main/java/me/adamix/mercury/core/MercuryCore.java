@@ -1,5 +1,7 @@
 package me.adamix.mercury.core;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
 import me.adamix.mercury.core.item.ItemManager;
@@ -9,6 +11,7 @@ import me.adamix.mercury.core.mob.MercuryMob;
 import me.adamix.mercury.core.mob.MobManager;
 import me.adamix.mercury.core.placeholder.PlaceholderManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
+import me.adamix.mercury.core.protocol.MercuryProtocol;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
@@ -29,6 +32,7 @@ public class MercuryCore {
 	private static ItemManager itemManager;
 	private static PlaceholderManager placeholderManager;
 	private static MobManager mobManager;
+	private static MercuryProtocol protocol;
 
 	/**
 	 * Loads all necessary data for core plugin.
@@ -60,6 +64,10 @@ public class MercuryCore {
 		mobManager = new MobManager();
 
 		mobManager.registerBlueprint(Key.key("mercury", "test"), new DummyMobBlueprint());
+
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		protocol = new MercuryProtocol(protocolManager);
+
 	}
 
 	/**
@@ -144,6 +152,15 @@ public class MercuryCore {
 	@ApiStatus.Internal
 	public static MobManager mobManager() {
 		return mobManager;
+	}
+
+	/**
+	 * Retrieves instance of mercury protocol.
+	 * @return {@link MercuryProtocol} instance.
+	 */
+	@ApiStatus.Internal
+	public static MercuryProtocol protocol() {
+		return protocol;
 	}
 
 	/**

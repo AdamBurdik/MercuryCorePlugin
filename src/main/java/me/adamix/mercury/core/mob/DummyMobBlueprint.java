@@ -14,7 +14,7 @@ public class DummyMobBlueprint extends MercuryMobBlueprint {
 	public DummyMobBlueprint() {
 		super(
 				EntityType.ZOMBIE,
-				"Dummy Mob",
+				"Dummy Mob! <red>Hello <player_name>!",
 				new MobAttributeContainer()
 						.set(MercuryAttribute.DAMAGE, 100d),
 				new DummyMobEventHandler()
