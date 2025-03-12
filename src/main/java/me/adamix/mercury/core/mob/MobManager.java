@@ -1,5 +1,6 @@
 package me.adamix.mercury.core.mob;
 
+import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.event.mob.MobSpawnEvent;
 import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
@@ -66,7 +67,7 @@ public class MobManager {
 
 		// Apply name
 		for (Player bukkitPlayer : bukkitMob.getTrackedBy()) {
-			MercuryPlayer player = new MercuryPlayer(bukkitPlayer, "en");
+			MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
 			mob.updateName(player);
 		}
 

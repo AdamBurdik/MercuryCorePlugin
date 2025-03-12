@@ -11,6 +11,7 @@ import me.adamix.mercury.core.mob.MercuryMob;
 import me.adamix.mercury.core.mob.MobManager;
 import me.adamix.mercury.core.placeholder.PlaceholderManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
+import me.adamix.mercury.core.player.PlayerManager;
 import me.adamix.mercury.core.protocol.MercuryProtocol;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
@@ -20,8 +21,10 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.UUID;
 
 
 public class MercuryCore {
@@ -32,6 +35,7 @@ public class MercuryCore {
 	private static ItemManager itemManager;
 	private static PlaceholderManager placeholderManager;
 	private static MobManager mobManager;
+	private static PlayerManager playerManager;
 	private static MercuryProtocol protocol;
 
 	/**
@@ -53,21 +57,18 @@ public class MercuryCore {
 
 		PlayerDefaults.load(MercuryCorePlugin.getFolderPath());
 
+		playerManager = new PlayerManager();
 		translationManager = new TranslationManager();
 		translationManager.loadAllTranslations(MercuryCorePlugin.getFolderPath());
-
 		blueprintManager = new ItemBlueprintManager();
 		blueprintManager.loadAllItems(MercuryCorePlugin.getFolderPath());
 		itemManager = new ItemManager();
-
 		placeholderManager = new PlaceholderManager();
 		mobManager = new MobManager();
-
 		mobManager.registerBlueprint(Key.key("mercury", "test"), new DummyMobBlueprint());
 
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocol = new MercuryProtocol(protocolManager);
-
 	}
 
 	/**
@@ -103,6 +104,15 @@ public class MercuryCore {
 	 */
 	public static void spawnMob(@NotNull MercuryMob mob, @NotNull Location location) {
 		mobManager.spawn(mob, location);
+	}
+
+	/**
+	 * Retrieves mercury player instance from uuid.
+	 * @param uuid player uuid.
+	 * @return {@link MercuryPlayer} instance or null if player is not online or does not exist.
+	 */
+	public static @Nullable MercuryPlayer getPlayer(@NotNull UUID uuid) {
+		return playerManager.getPlayer(uuid);
 	}
 
 	/**
@@ -152,6 +162,15 @@ public class MercuryCore {
 	@ApiStatus.Internal
 	public static MobManager mobManager() {
 		return mobManager;
+	}
+
+	/**
+	 * Retrieves player manager instance.
+	 * @return {@link PlayerManager} instance.
+	 */
+	@ApiStatus.Internal
+	public static PlayerManager playerManager() {
+		return playerManager;
 	}
 
 	/**

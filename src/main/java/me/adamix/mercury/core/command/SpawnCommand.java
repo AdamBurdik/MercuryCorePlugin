@@ -21,7 +21,7 @@ public class SpawnCommand implements ICommand {
 		//      /spawn <key> <location> <count>
 
 		ctx.asPlayer(bukkitPlayer -> {
-			MercuryPlayer player = new MercuryPlayer(bukkitPlayer, "en");
+			MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
 
 			@NotNull String[] args = ctx.args();
 			if (args.length < 1) {

@@ -18,7 +18,7 @@ public class ItemCommand implements ICommand {
 	@Override
 	public boolean execute(@NotNull CommandContext ctx) {
 		ctx.asPlayer(bukkitPlayer -> {
-			MercuryPlayer player = new MercuryPlayer(bukkitPlayer, "en");
+			MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
 
 			Optional<MercuryItem> item = MercuryCore.itemManager().buildItem(Key.key("mercury", ctx.args()[0]));
 			MercuryItem mercuryItem =  item.get();
