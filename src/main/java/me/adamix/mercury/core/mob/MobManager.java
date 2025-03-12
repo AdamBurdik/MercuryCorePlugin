@@ -4,6 +4,7 @@ import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.MercuryCorePlugin;
 import me.adamix.mercury.core.event.mob.MobSpawnEvent;
 import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
+import me.adamix.mercury.core.mob.blueprint.MobBlueprintParser;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
 import me.adamix.mercury.core.mob.event.EventHandler;
 import me.adamix.mercury.core.player.MercuryPlayer;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,6 +28,16 @@ public class MobManager {
 
 	public MobManager() {
 		this.blueprintRegistryMap = new HashMap<>();
+	}
+
+	/**
+	 * Get all parsed entities from folder and registers them.
+	 */
+	public void registerAllEntityBlueprints(@NotNull String dataFolder) {
+		List<MobBlueprintParser.MobBlueprintParseResult> resultList = MobBlueprintParser.parseAll(dataFolder + "/mobs");
+		for (MobBlueprintParser.MobBlueprintParseResult result : resultList) {
+			registerBlueprint(result.mobKey(), result.blueprint());
+		}
 	}
 
 	/**

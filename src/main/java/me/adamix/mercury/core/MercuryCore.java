@@ -65,6 +65,7 @@ public class MercuryCore {
 		itemManager = new ItemManager();
 		placeholderManager = new PlaceholderManager();
 		mobManager = new MobManager();
+		mobManager.registerAllEntityBlueprints(MercuryCorePlugin.getFolderPath());
 		mobManager.registerBlueprint(Key.key("mercury", "test"), new DummyMobBlueprint());
 
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
