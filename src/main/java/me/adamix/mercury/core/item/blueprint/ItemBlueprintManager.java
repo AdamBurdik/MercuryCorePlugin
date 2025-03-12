@@ -13,15 +13,12 @@ import me.adamix.mercury.core.utils.TomlUtils;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.tomlj.TomlTable;
 
 import java.io.File;
 import java.util.*;
 
 public class ItemBlueprintManager {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ItemBlueprintManager.class);
 	private final Map<Key, MercuryItemBlueprint> itemBlueprintMap = new HashMap<>();
 
 	public void loadAllItems(@NotNull String folderPath) {
@@ -93,7 +90,7 @@ public class ItemBlueprintManager {
 		}
 
 
-		LOGGER.info("Item '{}' ({}) has been registered", key, tomlFile.getName());
+		MercuryCorePlugin.getCoreLogger().info("Item '{}' ({}) has been registered", key, tomlFile.getName());
 		MercuryItemBlueprint item = new MercuryItemBlueprint(
 				key,
 				material,
