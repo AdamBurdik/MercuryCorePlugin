@@ -25,7 +25,7 @@ public class DummyMobBlueprint extends MercuryMobBlueprint {
 	private static class DummyMobEventHandler implements EventHandler {
 		@Override
 		public void onSpawn(@NotNull MobSpawnEvent event) {
-			event.getMob().getBukkitMob().setVelocity(new Vector(0, 1.5f, 0));
+			event.getMob().getBukkitMob().setVelocity(new Vector(0, 0.8f, 0));
 		}
 
 		@Override
