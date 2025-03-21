@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.exception.TranslationNotFoundException;
+import me.adamix.mercury.core.player.inventory.MercuryPlayerInventory;
 import me.adamix.mercury.core.translation.Translation;
 import net.kyori.adventure.text.Component;
 import org.bukkit.attribute.Attribute;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Getter
 public class MercuryPlayer {
 	private final @NotNull Player bukkitPlayer;
+	private final @NotNull MercuryPlayerInventory inventory;
 	private @NotNull String translationId;
 	private boolean debug = true;
 
@@ -26,6 +28,7 @@ public class MercuryPlayer {
 	) {
 		this.bukkitPlayer = bukkitPlayer;
 		this.translationId = translationId;
+		this.inventory = new MercuryPlayerInventory(bukkitPlayer.getInventory());
 	}
 
 	/**
