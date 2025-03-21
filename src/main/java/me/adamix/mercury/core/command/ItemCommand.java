@@ -1,30 +1,16 @@
 package me.adamix.mercury.core.command;
 
-import com.marcusslover.plus.lib.command.Command;
-import com.marcusslover.plus.lib.command.CommandContext;
-import com.marcusslover.plus.lib.command.ICommand;
-import com.marcusslover.plus.lib.command.TabCompleteContext;
 import me.adamix.mercury.core.MercuryCore;
-import me.adamix.mercury.core.item.MercuryItem;
+import me.adamix.mercury.core.item.blueprint.MercuryItemBlueprint;
 import me.adamix.mercury.core.player.MercuryPlayer;
-import net.kyori.adventure.key.Key;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.entity.Player;
+import revxrsal.commands.annotation.Command;
 
-import java.util.Optional;
+public class ItemCommand {
+	@Command("item give <key>")
+	public void give(Player sender, MercuryItemBlueprint key) {
+		MercuryPlayer player = MercuryCore.getPlayer(sender.getUniqueId());
 
-@Command(name="item")
-public class ItemCommand implements ICommand {
-	@Override
-	public boolean execute(@NotNull CommandContext ctx) {
-		ctx.asPlayer(bukkitPlayer -> {
-			MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
-
-			Optional<MercuryItem> item = MercuryCore.itemManager().buildItem(Key.key("mercury", ctx.args()[0]));
-			MercuryItem mercuryItem =  item.get();
-			ItemStack itemStack = mercuryItem.toItemStack(player);
-			bukkitPlayer.getInventory().addItem(itemStack);
-		});
-		return false;
+		// ToDO Add item to player inventory
 	}
 }

@@ -7,6 +7,8 @@ plugins {
 group = "me.adamix.mercury.core"
 version = "0.1.0"
 
+var lampVersion = "4.0.0-rc.9"
+
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
@@ -23,6 +25,10 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
 
+    implementation("io.github.revxrsal:lamp.common:${lampVersion}")
+    implementation("io.github.revxrsal:lamp.bukkit:${lampVersion}")
+    implementation("io.github.revxrsal:lamp.brigadier:${lampVersion}")
+
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
@@ -38,4 +44,8 @@ tasks.shadowJar {
 
 tasks.build {
     dependsOn(tasks.shadowJar)
+}
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-parameters")
 }
