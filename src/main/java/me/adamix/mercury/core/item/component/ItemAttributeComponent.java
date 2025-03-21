@@ -5,9 +5,10 @@ import me.adamix.mercury.core.attribute.AttributeContainer;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.attribute.MercuryAttributeValue;
 import me.adamix.mercury.core.player.MercuryPlayer;
-import me.adamix.mercury.core.player.attribute.PlayerAttributeContainer;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,22 +24,34 @@ public record ItemAttributeComponent(EnumMap<MercuryAttribute, MercuryAttributeV
 
 	public void applyToPlayer(@NotNull MercuryPlayer player) {
 		// ToDo Apply custom attributes to player
-//		// Apply default ones
-//		attributeMap.forEach((attribute, value) -> {
-//			Attribute defaultAttribute = attribute.getDefaultAttribute();
-//			if (defaultAttribute != null) {
-//
-//				player.getBukkitAttribute(defaultAttribute)
-//						.addModifier(
-//								new AttributeModifier(
-//										MercuryCore.namespacedKey(defaultAttribute.toString()),
-//										value.value(),
-//										value.operation()
-//								)
-//						);
-//			}
-//		});
-//		// Apply custom ones
+		Player bukkitPlayer = player.getBukkitPlayer();
+
+		attributeMap.forEach((attribute, value) -> {
+			if (value == null) {
+				return;
+			}
+
+			Attribute bukkitAttribute = attribute.getBukkitAttribute();
+			if (bukkitAttribute == null) {
+				return;
+			}
+			AttributeInstance instance = bukkitPlayer.getAttribute(bukkitAttribute);
+			if (instance == null) {
+				return;
+			}
+			for (AttributeModifier modifier : instance.getModifiers()) {
+				instance.removeModifier(modifier.key());
+			}
+
+			instance.addModifier(new AttributeModifier(
+					MercuryCore.namespacedKey(attribute.name()),
+					value.value(),
+					value.operation()
+			));
+		});
+
+		// Todo Apply custom ones. Like damage, max health
+
 //		PlayerAttributeContainer playerAttribute = player.getProfileData().getAttributes();
 //
 //		// Damage
