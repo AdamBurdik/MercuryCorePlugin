@@ -14,14 +14,14 @@ public enum MercuryAttribute implements Translatable {
 	MAX_HEALTH;
 
 	@Nullable
-	private final Attribute defaultAttribute;
+	private final Attribute bukkitAttribute;
 
 	MercuryAttribute() {
 		this(null);
 	}
 
-	MercuryAttribute(@Nullable Attribute defaultAttribute) {
-		this.defaultAttribute = defaultAttribute;
+	MercuryAttribute(@Nullable Attribute bukkitAttribute) {
+		this.bukkitAttribute = bukkitAttribute;
 	}
 
 	@Override

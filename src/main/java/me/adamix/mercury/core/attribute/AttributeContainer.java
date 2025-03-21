@@ -4,8 +4,6 @@ import lombok.Getter;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.player.attribute.PlayerAttributeContainer;
-import net.kyori.adventure.key.Key;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +37,7 @@ public class AttributeContainer {
 
 	public void apply(@NotNull MercuryPlayer player) {
 		attributeMap.forEach((attribute, value) -> {
-			Attribute defaultAttribute = attribute.getDefaultAttribute();
+			Attribute defaultAttribute = attribute.getBukkitAttribute();
 			if (defaultAttribute != null) {
 				player.getBukkitAttribute(defaultAttribute)
 						.addModifier(new AttributeModifier(

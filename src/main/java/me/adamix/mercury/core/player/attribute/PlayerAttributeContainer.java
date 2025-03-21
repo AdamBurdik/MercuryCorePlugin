@@ -61,7 +61,7 @@ public class PlayerAttributeContainer {
 
 	public void apply(@NotNull MercuryPlayer player) {
 		attributeMap.forEach((attribute, value) -> {
-			Attribute defaultAttribute = attribute.getDefaultAttribute();
+			Attribute defaultAttribute = attribute.getBukkitAttribute();
 			if (defaultAttribute != null) {
 				player.getBukkitAttribute(defaultAttribute).setBaseValue(value);
 			}

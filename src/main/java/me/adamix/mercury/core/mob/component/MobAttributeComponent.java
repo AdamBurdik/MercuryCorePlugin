@@ -25,7 +25,7 @@ public record MobAttributeComponent(@NotNull EnumMap<MercuryAttribute, Double> a
 
 	public void applyToMob(MercuryMob mob) {
 		attributeMap.forEach((attribute, value) -> {
-			Attribute defaultAttribute = attribute.getDefaultAttribute();
+			Attribute defaultAttribute = attribute.getBukkitAttribute();
 			if (defaultAttribute != null) {
 
 				// ToDo set attribute even if mob does not have that attribute already
