@@ -1,7 +1,9 @@
 package me.adamix.mercury.core.item;
 
+import com.google.common.collect.HashMultimap;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
+import me.adamix.mercury.core.attribute.MercuryAttributeModifier;
 import me.adamix.mercury.core.attribute.MercuryAttributeValue;
 import me.adamix.mercury.core.common.ColorPallet;
 import me.adamix.mercury.core.item.component.ItemAttributeComponent;
@@ -83,8 +85,8 @@ public record MercuryItem (
 		ItemAttributeComponent itemAttributeComponent = getComponent(ItemAttributeComponent.class);
 		if (itemAttributeComponent != null) {
 			// Add DPS to lore if available
-			MercuryAttributeValue damage = itemAttributeComponent.get(MercuryAttribute.DAMAGE);
-			MercuryAttributeValue attackSpeed = itemAttributeComponent.get(MercuryAttribute.ATTACK_SPEED);
+			MercuryAttributeModifier damage = itemAttributeComponent.get(MercuryAttribute.DAMAGE);
+			MercuryAttributeModifier attackSpeed = itemAttributeComponent.get(MercuryAttribute.ATTACK_SPEED);
 			if (damage != null && attackSpeed != null) {
 				loreList.add(Component.empty());
 				loreList.add(
@@ -101,22 +103,18 @@ public record MercuryItem (
 
 			// Add attributes to lore if available
 			loreList.add(Component.empty());
-			itemAttributeComponent.attributeMap().forEach((attribute, value) -> {
-				if (value == null) {
-					return;
-				}
-
-				if (attribute == MercuryAttribute.DAMAGE || attribute == MercuryAttribute.ATTACK_SPEED) {
-					return;
-				}
+			itemAttributeComponent.attributeMap().forEach((attribute, modifier) -> {
+//				if (attribute == MercuryAttribute.DAMAGE || attribute == MercuryAttribute.ATTACK_SPEED) {
+//					return;
+//				}
 
 				Component namePart = Component.text(translation.get(attribute.translationKey()) + ": ")
 						.color(ColorPallet.LIGHT_GRAY.getColor());
 
-				boolean isPositive = value.value() >= 0;
+				boolean isPositive = modifier.value() >= 0;
 				String sign = isPositive ? "+" : "";
 
-				Component valuePart = formatAttribute(value, sign, isPositive);
+				Component valuePart = formatAttribute(modifier, sign, isPositive);
 
 				loreList.add(
 						namePart.append(valuePart)
@@ -162,6 +160,7 @@ public record MercuryItem (
 
 		ItemStack itemStack = new ItemStack(this.material);
 		ItemMeta meta = itemStack.getItemMeta();
+		meta.setAttributeModifiers(HashMultimap.create());
 
 		meta.customName(placeholderManager.parse(this.name, player));
 		meta.lore(loreList);
@@ -172,12 +171,12 @@ public record MercuryItem (
 		return itemStack;
 	}
 
-	private @NotNull Component formatAttribute(MercuryAttributeValue value, String sign, boolean isPositive) {
-		AttributeModifier.Operation operation = value.operation();
+	private @NotNull Component formatAttribute(MercuryAttributeModifier modifier, String sign, boolean isPositive) {
+		MercuryAttributeModifier.Operation operation = modifier.operation();
 		Component valuePart = switch (operation) {
-			case ADD_NUMBER -> Component.text(sign + (int) value.value());
-			case ADD_SCALAR -> Component.text(sign + (int) (value.value() * 100) + "%");
-			case MULTIPLY_SCALAR_1 -> Component.text((int) (value.value() * 100) + "%");
+			case ADD_VALUE -> Component.text(sign + (int) modifier.value());
+			case MULTIPLY_BASE -> Component.text(sign + (int) (modifier.value() * 100) + "%");
+			case MULTIPLY_TOTAL -> Component.text((int) (modifier.value() * 100) + "%");
 		};
 
 		if (isPositive) {

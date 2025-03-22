@@ -40,6 +40,11 @@ public class MercuryConfiguration extends MercuryToml {
 	}
 
 	@Override
+	public @Nullable Object getObject(@NotNull String dottedKey) {
+		return parseResult.get(dottedKey);
+	}
+
+	@Override
 	public @Nullable String getString(@NotNull String dottedKey) {
 		return parseResult.getString(dottedKey);
 	}

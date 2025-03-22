@@ -1,13 +1,16 @@
 package me.adamix.mercury.core.item.blueprint;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import me.adamix.mercury.core.MercuryCorePlugin;
 import me.adamix.mercury.core.attribute.AttributeContainer;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
+import me.adamix.mercury.core.attribute.MercuryAttributeModifier;
 import me.adamix.mercury.core.item.component.ItemAttributeComponent;
 import me.adamix.mercury.core.item.component.ItemDescriptionComponent;
 import me.adamix.mercury.core.item.component.MercuryItemComponent;
 import me.adamix.mercury.core.item.rarity.ItemRarity;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
+import me.adamix.mercury.core.toml.MercuryTable;
 import me.adamix.mercury.core.utils.FileUtils;
 import me.adamix.mercury.core.utils.TomlUtils;
 import net.kyori.adventure.key.Key;
@@ -63,16 +66,15 @@ public class ItemBlueprintManager {
 		}
 
 		// Parse attributes to component
-		TomlTable attributeTable = toml.getTomlTable("attributes");
+		// ToDO Rework item attribute component
+//		TomlTable attributeTable = toml.getTomlTable("attributes");
+		MercuryTable attributeTable = toml.getTable("attributes");
+
 		if (attributeTable != null) {
-			AttributeContainer attributeContainer = new AttributeContainer();
-			attributeContainer
-					.set(MercuryAttribute.DAMAGE, TomlUtils.parseAttribute(attributeTable, "damage"))
-					.set(MercuryAttribute.MOVEMENT_SPEED, TomlUtils.parseAttribute(attributeTable, "movement_speed"))
-					.set(MercuryAttribute.ATTACK_SPEED, TomlUtils.parseAttribute(attributeTable, "attack_speed"))
-					.set(MercuryAttribute.MAX_HEALTH, TomlUtils.parseAttribute(attributeTable, "max_health"));
+			Map<MercuryAttribute, MercuryAttributeModifier> modifierMap = TomlUtils.parseAttributes(attributeTable, key);
+
 			componentList.add(
-					new ItemAttributeComponent(attributeContainer.getAttributeMap())
+					new ItemAttributeComponent(modifierMap)
 			);
 		}
 

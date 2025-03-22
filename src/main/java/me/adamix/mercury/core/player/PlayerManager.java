@@ -1,5 +1,8 @@
 package me.adamix.mercury.core.player;
 
+import me.adamix.mercury.core.attribute.AttributeContainer;
+import me.adamix.mercury.core.attribute.MercuryAttribute;
+import me.adamix.mercury.core.attribute.MercuryAttributeInstance;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +21,11 @@ public class PlayerManager {
 
 	public @NotNull MercuryPlayer createPlayer(@NotNull Player bukkitPlayer) {
 		// ToDO Get player data from database
-		MercuryPlayer player = playerProvider.createPlayer(bukkitPlayer, "en");
+		AttributeContainer attributeContainer = new AttributeContainer();
+		attributeContainer.set(MercuryAttribute.MOVEMENT_SPEED, new MercuryAttributeInstance(0.1));
+		attributeContainer.apply(bukkitPlayer);
+
+		MercuryPlayer player = playerProvider.createPlayer(bukkitPlayer, "en", attributeContainer);
 		playerMap.put(bukkitPlayer.getUniqueId(), player);
 		return player;
 	}

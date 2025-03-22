@@ -19,6 +19,7 @@ import java.util.Objects;
 public abstract class MercuryToml {
 
 	public abstract void mustContain(@NotNull String dottedKey);
+	public abstract @Nullable Object getObject(@NotNull String dottedKey);
 	public abstract @Nullable String getString(@NotNull String dottedKey);
 	public abstract @Nullable Boolean getBoolean(@NotNull String dottedKey);
 	public abstract @Nullable Integer getInteger(@NotNull String dottedKey);

@@ -1,69 +1,33 @@
 package me.adamix.mercury.core.item.component;
 
-import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.attribute.AttributeContainer;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
-import me.adamix.mercury.core.attribute.MercuryAttributeValue;
-import me.adamix.mercury.core.player.MercuryPlayer;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.Player;
+import me.adamix.mercury.core.attribute.MercuryAttributeInstance;
+import me.adamix.mercury.core.attribute.MercuryAttributeModifier;
+import org.apache.commons.lang.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public record ItemAttributeComponent(EnumMap<MercuryAttribute, MercuryAttributeValue> attributeMap) implements MercuryItemComponent {
-	public @Nullable MercuryAttributeValue get(MercuryAttribute attribute) {
+public record ItemAttributeComponent(Map<MercuryAttribute, MercuryAttributeModifier> attributeMap) implements MercuryItemComponent {
+
+	public @Nullable MercuryAttributeModifier get(MercuryAttribute attribute) {
 		return attributeMap.get(attribute);
 	}
 
-	public void applyToPlayer(@NotNull MercuryPlayer player) {
+	public void apply(@NotNull AttributeContainer attributeContainer) {
 		// ToDo Apply custom attributes to player
-		Player bukkitPlayer = player.getBukkitPlayer();
 
-		attributeMap.forEach((attribute, value) -> {
-			if (value == null) {
-				return;
-			}
-
-			Attribute bukkitAttribute = attribute.getBukkitAttribute();
-			if (bukkitAttribute == null) {
-				return;
-			}
-			AttributeInstance instance = bukkitPlayer.getAttribute(bukkitAttribute);
+		attributeMap.forEach((attribute, modifier) -> {
+			MercuryAttributeInstance instance = attributeContainer.get(attribute);
 			if (instance == null) {
+				// ToDO Throw some error or indication that modifier has not been applied
 				return;
 			}
-			for (AttributeModifier modifier : instance.getModifiers()) {
-				instance.removeModifier(modifier.key());
-			}
-
-			instance.addModifier(new AttributeModifier(
-					MercuryCore.namespacedKey(attribute.name()),
-					value.value(),
-					value.operation()
-			));
+			instance.addModifier(modifier.key(), modifier);
 		});
-
-		// Todo Apply custom ones. Like damage, max health
-
-//		PlayerAttributeContainer playerAttribute = player.getProfileData().getAttributes();
-//
-//		// Damage
-//		if (attributeMap.containsKey(MercuryAttribute.DAMAGE)) {
-//			MercuryAttributeValue damageAttribute = attributeMap.get(MercuryAttribute.DAMAGE);
-//			playerAttribute.modify(MercuryAttribute.DAMAGE, damageAttribute.value(), damageAttribute.operation());
-//		}
-//		// Attack Speed
-//		if (attributeMap.containsKey(MercuryAttribute.ATTACK_SPEED)) {
-//			MercuryAttributeValue attackSpeedAttribute = attributeMap.get(MercuryAttribute.ATTACK_SPEED);
-//			playerAttribute.modify(MercuryAttribute.ATTACK_SPEED, attackSpeedAttribute.value(), attackSpeedAttribute.operation());
-//		}
 	}
 
 	@Override
@@ -86,30 +50,12 @@ public record ItemAttributeComponent(EnumMap<MercuryAttribute, MercuryAttributeV
 
 	@Override
 	public Map<String, Object> serialize() {
-		Map<String, Object> map = new HashMap<>();
-
-		attributeMap.forEach((name, attributeValue) -> {
-			map.put(name.name(), Map.of(
-					"value", attributeValue.value(),
-					"operation", attributeValue.operation().name()
-			));
-		});
-
-
-		return map;
+		// ToDO Implement serialization and deserialization
+		throw new NotImplementedException();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static @NotNull ItemAttributeComponent deserialize(Map<String, Object> map) {
-		AttributeContainer attributeContainer = new AttributeContainer();
-
-		map.forEach((name, attributeValue) -> {
-			MercuryAttribute attribute = MercuryAttribute.valueOf(name);
-
-			Map<String, Object> valueMap = (Map<String, Object>) attributeValue;
-			attributeContainer.set(attribute, (double) valueMap.get("value"), AttributeModifier.Operation.valueOf((String) valueMap.get("operation")));
-		});
-
-		return new ItemAttributeComponent(attributeContainer.getAttributeMap());
+		// ToDO Implement serialization and deserialization
+		throw new NotImplementedException();
 	}
 }

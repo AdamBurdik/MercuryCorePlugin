@@ -38,6 +38,6 @@ public class PlayerEventListener implements Listener {
 		Player bukkitPlayer = event.getPlayer();
 		MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
 
-		AttributeUpdater.update(player, event.getNewSlot());
+		AttributeUpdater.update(player, event.getNewSlot(), event.getPreviousSlot());
 	}
 }

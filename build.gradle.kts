@@ -29,6 +29,8 @@ dependencies {
     implementation("io.github.revxrsal:lamp.bukkit:${lampVersion}")
     implementation("io.github.revxrsal:lamp.brigadier:${lampVersion}")
 
+    implementation("it.unimi.dsi:fastutil:8.5.15")
+
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }

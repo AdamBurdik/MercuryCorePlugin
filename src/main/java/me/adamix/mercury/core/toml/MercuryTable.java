@@ -1,5 +1,6 @@
 package me.adamix.mercury.core.toml;
 
+import lombok.Getter;
 import me.adamix.mercury.core.math.Pos;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,6 +9,7 @@ import org.tomlj.TomlTable;
 
 import java.util.Objects;
 
+@Getter
 public class MercuryTable extends MercuryToml {
 
 	private final @NotNull TomlTable tomlTable;
@@ -23,6 +25,11 @@ public class MercuryTable extends MercuryToml {
 		if (!this.tomlTable.contains(dottedKey)) {
 			throw new RuntimeException("Unable to find property '" + dottedKey + "' in " + name + "!");
 		}
+	}
+
+	@Override
+	public @Nullable Object getObject(@NotNull String dottedKey) {
+		return tomlTable.get(dottedKey);
 	}
 
 	@Override
@@ -107,7 +114,7 @@ public class MercuryTable extends MercuryToml {
 
 	@Override
 	public @Nullable MercuryTable getTable(@NotNull String dottedKey) {
-		return new MercuryTable(getTomlTableSafe(dottedKey), this.name + "." + dottedKey);
+		return new MercuryTable(getTomlTable(dottedKey), this.name + "." + dottedKey);
 	}
 
 	public @NotNull MercuryTable getTableSafe(@NotNull String dottedKey) {
@@ -161,5 +168,13 @@ public class MercuryTable extends MercuryToml {
 	@Override
 	public @NotNull String getName() {
 		return "";
+	}
+
+	@Override
+	public String toString() {
+		return "MercuryTable{" +
+				"tomlTable=" + tomlTable.toString() +
+				", name='" + name + '\'' +
+				'}';
 	}
 }

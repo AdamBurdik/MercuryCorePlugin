@@ -1,16 +1,12 @@
 package me.adamix.mercury.core.mob;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
+import me.adamix.mercury.core.entity.MercuryEntity;
 import me.adamix.mercury.core.exception.MobNotSpawnedException;
-import me.adamix.mercury.core.math.Pos;
 import me.adamix.mercury.core.mob.attribute.MobAttributeContainer;
 import me.adamix.mercury.core.mob.component.MercuryMobComponent;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
@@ -18,20 +14,17 @@ import me.adamix.mercury.core.mob.event.EventHandler;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.protocol.data.EntityMetadata;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.minecraft.network.syncher.SynchedEntityData;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.stream.Collectors;
 
 
 @Getter
-public class MercuryMob {
+public class MercuryMob implements MercuryEntity {
 	@Setter(AccessLevel.PACKAGE)
 	private @Nullable Mob bukkitMob;
 	private final @NotNull EntityType entityType;
@@ -109,4 +102,8 @@ public class MercuryMob {
 	}
 
 
+	@Override
+	public @Nullable LivingEntity getLivingEntity() {
+		return bukkitMob;
+	}
 }
