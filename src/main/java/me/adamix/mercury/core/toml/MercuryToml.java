@@ -3,6 +3,7 @@ package me.adamix.mercury.core.toml;
 
 import io.papermc.paper.math.FinePosition;
 import me.adamix.mercury.core.math.Pos;
+import me.adamix.mercury.core.toml.exception.MissingTomlPropertyException;
 import net.kyori.adventure.key.Key;
 import net.minecraft.core.Position;
 import org.bukkit.Location;
@@ -44,7 +45,9 @@ public abstract class MercuryToml {
 	public @NotNull Key getKeySafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Key value = getKey(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -87,7 +90,9 @@ public abstract class MercuryToml {
 	public @NotNull Pos getPosSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Pos value = getPos(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -102,7 +107,9 @@ public abstract class MercuryToml {
 	public @NotNull Material getMaterialSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Material value = getMaterial(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -117,7 +124,9 @@ public abstract class MercuryToml {
 	public @NotNull EntityType getEntityTypeSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		EntityType value = getEntityType(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 }

@@ -1,6 +1,7 @@
 package me.adamix.mercury.core.toml;
 
 import me.adamix.mercury.core.math.Pos;
+import me.adamix.mercury.core.toml.exception.MissingTomlPropertyException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.tomlj.Toml;
@@ -52,7 +53,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public @NotNull String getStringSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		String value = getString(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -64,7 +67,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public boolean getBooleanSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Boolean value = parseResult.getBoolean(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -80,7 +85,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public int getIntegerSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Integer value = getInteger(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -92,7 +99,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public long getLongSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Long value = getLong(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -108,7 +117,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public float getFloatSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Float value = getFloat(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -120,7 +131,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public double getDoubleSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		Double value = getDouble(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -150,7 +163,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public @NotNull TomlTable getTomlTableSafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		TomlTable value = getTomlTable(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
@@ -162,7 +177,9 @@ public class MercuryConfiguration extends MercuryToml {
 	public @NotNull TomlArray getTomlArraySafe(@NotNull String dottedKey) {
 		mustContain(dottedKey);
 		TomlArray value = getTomlArray(dottedKey);
-		Objects.requireNonNull(value);
+		if (value == null) {
+			throw new MissingTomlPropertyException(dottedKey, getName());
+		}
 		return value;
 	}
 
