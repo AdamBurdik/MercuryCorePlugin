@@ -4,6 +4,7 @@ import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.mob.attribute.MobAttributeContainer;
 import me.adamix.mercury.core.mob.component.MercuryMobComponent;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
+import me.adamix.mercury.core.toml.exception.MissingTomlPropertyException;
 import net.kyori.adventure.key.Key;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.tomlj.TomlTable;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +20,9 @@ import java.util.List;
  * Responsible for parsing toml files to blueprint.
  */
 public class MobBlueprintParser {
-	public static @NotNull MobBlueprintParseResult parse(@NotNull File tomlFile) {
+	public static @NotNull MobBlueprintParseResult parse(@NotNull File tomlFile) throws FileNotFoundException {
 		if (!tomlFile.exists()) {
-			throw new RuntimeException("Unable to parse entity blueprint! File does not exist");
+			throw new FileNotFoundException("Unable to parse entity blueprint! File does not exist");
 		}
 
 		MercuryConfiguration toml = new MercuryConfiguration(tomlFile);
@@ -81,7 +83,10 @@ public class MobBlueprintParser {
 		}
 
 		for (File file : files) {
-			list.add(parse(file));
+			try {
+				list.add(parse(file));
+			} catch (FileNotFoundException ignored) {
+			}
 		}
 
 		return list;
