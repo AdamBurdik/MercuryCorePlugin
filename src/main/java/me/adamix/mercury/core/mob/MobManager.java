@@ -9,6 +9,7 @@ import me.adamix.mercury.core.mob.blueprint.MobBlueprintParser;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
 import me.adamix.mercury.core.mob.event.EventHandler;
 import me.adamix.mercury.core.player.MercuryPlayer;
+import me.adamix.mercury.core.utils.MobUtils;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
@@ -71,7 +72,7 @@ public class MobManager {
 	 * @param location location where mob should be spawned
 	 */
 	public void spawn(@NotNull MercuryMob mob, @NotNull Location location) {
-		 Mob bukkitMob = (Mob) location.getWorld().spawnEntity(location, mob.getEntityType(), CreatureSpawnEvent.SpawnReason.CUSTOM, entity -> {
+		 Mob bukkitMob = (Mob) MobUtils.spawnBareboneEntity(location, mob.getEntityType(), entity -> {
 			// Apply attributes
 			MobAttributeComponent attributeComponent = mob.getComponent(MobAttributeComponent.class);
 			if (attributeComponent != null) {
