@@ -46,7 +46,7 @@ public class MobManager {
 	 * @param mobBlueprint blueprint to register.
 	 */
 	public void registerBlueprint(@NotNull Key blueprintkey, @NotNull MercuryMobBlueprint mobBlueprint) {
-		MercuryCorePlugin.getCoreLogger().info("Entity '{}' has been registered", blueprintkey);
+		MercuryCorePlugin.getCoreLogger().info("Registered entity blueprint: {}", blueprintkey);
 		blueprintRegistryMap.put(blueprintkey, mobBlueprint);
 	}
 
