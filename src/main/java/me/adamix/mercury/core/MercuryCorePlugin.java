@@ -25,7 +25,7 @@ public class MercuryCorePlugin extends JavaPlugin {
 		MercuryCore.load(this);
 
 //		// ToDo Move command registration to different place. Maybe using MercuryCore
-//		new CommandManager(this).register(new ItemCommand()).register(new SpawnCommand());
+		new CommandManager(this).register(new SpawnCommand());
 
 		// ToDO Move event listener registration to different place. Maybe using MercuryCore
 		Bukkit.getPluginManager().registerEvents(new EntityEventListener(), this);
