@@ -1,5 +1,6 @@
 package me.adamix.mercury.core.mob.blueprint;
 
+import me.adamix.mercury.core.MercuryCorePlugin;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.mob.attribute.MobAttributeContainer;
 import me.adamix.mercury.core.mob.component.MercuryMobComponent;
@@ -86,6 +87,8 @@ public class MobBlueprintParser {
 			try {
 				list.add(parse(file));
 			} catch (FileNotFoundException ignored) {
+			} catch (RuntimeException e) {
+				MercuryCorePlugin.getCoreLogger().error("Error while parsing {}: {}", file.getName(), e.getMessage());
 			}
 		}
 

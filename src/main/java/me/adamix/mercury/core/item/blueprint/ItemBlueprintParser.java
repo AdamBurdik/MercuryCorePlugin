@@ -9,6 +9,7 @@ import me.adamix.mercury.core.item.component.MercuryItemComponent;
 import me.adamix.mercury.core.item.rarity.ItemRarity;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.toml.MercuryTable;
+import me.adamix.mercury.core.toml.exception.MissingTomlPropertyException;
 import me.adamix.mercury.core.utils.TomlUtils;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;
@@ -93,7 +94,10 @@ public class ItemBlueprintParser {
 			try {
 				list.add(parse(file));
 			} catch (FileNotFoundException ignored) {
+			} catch (RuntimeException e) {
+				MercuryCorePlugin.getCoreLogger().error("Error while parsing {}: {}", file.getName(), e.getMessage());
 			}
+
 		}
 
 		return list;
