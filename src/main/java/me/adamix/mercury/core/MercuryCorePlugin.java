@@ -2,11 +2,13 @@ package me.adamix.mercury.core;
 
 import com.marcusslover.plus.lib.command.CommandManager;
 import me.adamix.mercury.core.command.ItemCommand;
-import me.adamix.mercury.core.command.SpawnCommand;
+import me.adamix.mercury.core.command.MobCommand;
 import me.adamix.mercury.core.command.types.ItemBlueprintParameterType;
+import me.adamix.mercury.core.command.types.MobBlueprintParameterType;
 import me.adamix.mercury.core.item.blueprint.MercuryItemBlueprint;
 import me.adamix.mercury.core.listener.entity.EntityEventListener;
 import me.adamix.mercury.core.listener.player.PlayerEventListener;
+import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -23,9 +25,6 @@ public class MercuryCorePlugin extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		MercuryCore.load(this);
-
-//		// ToDo Move command registration to different place. Maybe using MercuryCore
-		new CommandManager(this).register(new SpawnCommand());
 
 		// ToDO Move event listener registration to different place. Maybe using MercuryCore
 		Bukkit.getPluginManager().registerEvents(new EntityEventListener(), this);
@@ -58,10 +57,12 @@ public class MercuryCorePlugin extends JavaPlugin {
 		Lamp<BukkitCommandActor> lamp = BukkitLamp.builder(this)
 				.parameterTypes(builder -> {
 					builder.addParameterType(MercuryItemBlueprint.class, new ItemBlueprintParameterType());
+					builder.addParameterType(MercuryMobBlueprint.class, new MobBlueprintParameterType());
 				})
 				.build();
 
 		lamp.register(new ItemCommand());
+		lamp.register(new MobCommand());
 	}
 
 	public static ComponentLogger getCoreLogger() {

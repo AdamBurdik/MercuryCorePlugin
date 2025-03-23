@@ -19,10 +19,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class MobManager {
 	private final @NotNull Map<Key, MercuryMobBlueprint> blueprintRegistryMap;
@@ -92,5 +89,9 @@ public class MobManager {
 		if (eventHandler != null) {
 			eventHandler.onSpawn(new MobSpawnEvent(mob, location));
 		}
+	}
+
+	public @NotNull Set<Key> getBlueprintRegistryKeySet() {
+		return blueprintRegistryMap.keySet();
 	}
 }
