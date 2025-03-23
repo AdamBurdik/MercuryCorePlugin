@@ -1,16 +1,19 @@
 package me.adamix.mercury.core.listener.player;
 
-import io.papermc.paper.event.player.PlayerInventorySlotChangeEvent;
+import io.papermc.paper.event.packet.PlayerChunkLoadEvent;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.attribute.AttributeUpdater;
+import me.adamix.mercury.core.mob.MercuryMob;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class PlayerEventListener implements Listener {
 
@@ -39,5 +42,21 @@ public class PlayerEventListener implements Listener {
 		MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
 
 		AttributeUpdater.update(player, event.getNewSlot(), event.getPreviousSlot());
+	}
+
+	@EventHandler
+	public void onPlayerChunkLoad(PlayerChunkLoadEvent event) {
+		Player bukkitPlayer = event.getPlayer();
+		MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
+
+		for (@NotNull Entity entity : event.getChunk().getEntities()) {
+			MercuryMob mob = MercuryCore.mobManager().getMob(entity.getUniqueId());
+			if (mob != null) {
+				// Mob names cannot be updated instantly. Therefore we wait for 1 tick
+				MercuryCore.runDelayed(1, () -> {
+					mob.updateName(player);
+				});
+			}
+		}
 	}
 }

@@ -2,6 +2,8 @@ package me.adamix.mercury.core;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.marcusslover.plus.lib.task.Task;
+import lombok.Getter;
 import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
 import me.adamix.mercury.core.item.ItemManager;
@@ -17,6 +19,7 @@ import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
 import net.kyori.adventure.key.Key;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
@@ -114,6 +117,16 @@ public class MercuryCore {
 	 */
 	public static @Nullable MercuryPlayer getPlayer(@NotNull UUID uuid) {
 		return playerManager.getPlayer(uuid);
+	}
+
+	/**
+	 * Schedules sync task to run after delays
+	 * @param runnable Task to run
+	 * @param delay Delay in ticks to wait before running the task
+	 * @return Task that has been scheduled
+	 */
+	public static @NotNull Task runDelayed(long delay, @NotNull Runnable runnable) {
+		return Task.syncDelayed(plugin, delay, runnable);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package me.adamix.mercury.core.mob;
 
+import lombok.Getter;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.MercuryCorePlugin;
 import me.adamix.mercury.core.event.mob.MobSpawnEvent;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 public class MobManager {
 	private final @NotNull Map<Key, MercuryMobBlueprint> blueprintRegistryMap;
+	@Getter
 	private final @NotNull Map<UUID, MercuryMob> mobMap = new HashMap<>();
 
 	public MobManager() {
