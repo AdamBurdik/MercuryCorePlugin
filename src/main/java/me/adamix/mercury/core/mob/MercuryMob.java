@@ -21,6 +21,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 
 
 @Getter
@@ -92,7 +93,7 @@ public class MercuryMob implements MercuryEntity {
 	}
 
 	public void updateName(@NotNull MercuryPlayer player) {
-		Component component = MercuryCore.placeholderManager().parse(name, player);
+		Component component = MercuryCore.placeholderManager().parse(name, player, Map.of("mob", this));
 
 		EntityMetadata metadata = new EntityMetadata(getBukkitMob())
 				.setCustomName(component)
