@@ -3,7 +3,6 @@ package me.adamix.mercury.core.utils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.attribute.MercuryAttributeModifier;
-import me.adamix.mercury.core.attribute.MercuryAttributeValue;
 import me.adamix.mercury.core.toml.MercuryTable;
 import net.kyori.adventure.key.Key;
 import org.bukkit.attribute.AttributeModifier;
@@ -50,38 +49,5 @@ public class TomlUtils {
 		}
 
 		return modifierMap;
-	}
-
-	public static @Nullable MercuryAttributeValue parseAttribute(TomlTable table, String fileName) {
-		if (!table.contains(fileName)) {
-			return null;
-		}
-
-		Object attributeObject = table.get(fileName);
-
-		if (attributeObject instanceof Number number) {
-			return new MercuryAttributeValue(number.floatValue(), AttributeModifier.Operation.ADD_NUMBER);
-		} else if (attributeObject instanceof TomlTable attributeTable) {
-			Double doubleValue = attributeTable.getDouble("value");
-			if (doubleValue == null) {
-				return null;
-			}
-			double value = doubleValue;
-
-			String stringOperation = attributeTable.getString("operation");
-			if (stringOperation == null) {
-				return null;
-			}
-			AttributeModifier.Operation operation;
-			try {
-				operation = AttributeModifier.Operation.valueOf(stringOperation);
-			} catch (IllegalArgumentException e) {
-				return null;
-			}
-
-			return new MercuryAttributeValue((float) value, operation);
-		}
-
-		return null;
 	}
 }

@@ -4,7 +4,6 @@ import com.google.common.collect.HashMultimap;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.attribute.MercuryAttributeModifier;
-import me.adamix.mercury.core.attribute.MercuryAttributeValue;
 import me.adamix.mercury.core.common.ColorPallet;
 import me.adamix.mercury.core.item.component.ItemAttributeComponent;
 import me.adamix.mercury.core.item.component.ItemDescriptionComponent;
