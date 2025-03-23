@@ -61,7 +61,7 @@ public class MercuryCore {
 		translationManager = new TranslationManager();
 		translationManager.loadAllTranslations(MercuryCorePlugin.getFolderPath());
 		blueprintManager = new ItemBlueprintManager();
-		blueprintManager.loadAllItems(MercuryCorePlugin.getFolderPath());
+		blueprintManager.registerAllItemBlueprints(MercuryCorePlugin.getFolderPath());
 		itemManager = new ItemManager();
 		placeholderManager = new PlaceholderManager();
 		mobManager = new MobManager();
