@@ -10,7 +10,7 @@ public class ItemBlueprintManager {
 	private final Map<Key, MercuryItemBlueprint> itemBlueprintMap = new HashMap<>();
 
 	public void registerAllItemBlueprints(@NotNull String dataFolder) {
-		List<MercuryItemBlueprint> resultList = ItemBlueprintParser.parseAll(dataFolder + "/mobs");
+		List<MercuryItemBlueprint> resultList = ItemBlueprintParser.parseAll(dataFolder + "/items");
 		for (MercuryItemBlueprint result : resultList) {
 			registerBlueprint(result);
 		}
