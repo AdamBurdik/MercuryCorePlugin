@@ -31,6 +31,10 @@ dependencies {
 
     implementation("it.unimi.dsi:fastutil:8.5.15")
 
+    implementation(platform("org.dizitart:nitrite-bom:4.3.0"))
+    implementation("org.dizitart:nitrite")
+    implementation("org.dizitart:nitrite-mvstore-adapter")
+
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
