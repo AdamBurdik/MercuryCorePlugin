@@ -3,6 +3,8 @@ package me.adamix.mercury.core.mob.component;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.mob.MercuryMob;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.LivingEntity;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +32,19 @@ public record MobAttributeComponent(@NotNull EnumMap<MercuryAttribute, Double> a
 
 				// ToDo set attribute even if mob does not have that attribute already
 				mob.getBukkitMob().getAttribute(defaultAttribute)
+						.setBaseValue(value);
+			}
+		});
+	}
+
+	@ApiStatus.Internal
+	public void applyToEntity(LivingEntity livingEntity) {
+		attributeMap.forEach((attribute, value) -> {
+			Attribute defaultAttribute = attribute.getBukkitAttribute();
+			if (defaultAttribute != null) {
+
+				// ToDo set attribute even if mob does not have that attribute already
+				livingEntity.getAttribute(defaultAttribute)
 						.setBaseValue(value);
 			}
 		});

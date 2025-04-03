@@ -11,7 +11,8 @@ public enum MercuryAttribute implements Translatable {
 	DAMAGE,
 	ATTACK_SPEED(Attribute.ATTACK_SPEED),
 	MOVEMENT_SPEED(Attribute.MOVEMENT_SPEED),
-	MAX_HEALTH;
+	MAX_HEALTH,
+	HEALTH;
 
 	@Nullable
 	private final Attribute bukkitAttribute;

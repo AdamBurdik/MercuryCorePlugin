@@ -21,7 +21,10 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 
 @Getter
@@ -32,6 +35,7 @@ public class MercuryMob implements MercuryEntity {
 	private final @NotNull String name;
 	private final @NotNull MercuryMobComponent[] components;
 	private final @Nullable EventHandler eventHandler;
+	private final Set<UUID> viewers = new HashSet<>();
 
 	public MercuryMob(
 			@NotNull EntityType entityType,

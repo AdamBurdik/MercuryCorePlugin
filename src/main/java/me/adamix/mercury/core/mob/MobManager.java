@@ -3,6 +3,7 @@ package me.adamix.mercury.core.mob;
 import lombok.Getter;
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.MercuryCorePlugin;
+import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.event.mob.MobSpawnEvent;
 import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
 import me.adamix.mercury.core.mob.blueprint.MobBlueprintParser;
@@ -11,11 +12,10 @@ import me.adamix.mercury.core.mob.event.EventHandler;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.utils.MobUtils;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,7 +73,9 @@ public class MobManager {
 			// Apply attributes
 			MobAttributeComponent attributeComponent = mob.getComponent(MobAttributeComponent.class);
 			if (attributeComponent != null) {
-				attributeComponent.applyToMob(mob);
+				if (entity instanceof LivingEntity livingEntity) {
+					attributeComponent.applyToEntity(livingEntity);
+				}
 			}
 		});
 		mobMap.put(bukkitMob.getUniqueId(), mob);

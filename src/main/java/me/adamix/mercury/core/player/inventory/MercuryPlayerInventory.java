@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public class MercuryPlayerInventory {
 	private final @NotNull PlayerInventory bukkitInventory;
 	@Getter
-	private final @NotNull MercuryItem[] items;
+	private final MercuryItem[] items;
 
 	public MercuryPlayerInventory(@NotNull PlayerInventory bukkitInventory, @NotNull MercuryItem[] items) {
 		this.bukkitInventory = bukkitInventory;
@@ -27,6 +27,15 @@ public class MercuryPlayerInventory {
 		}
 		items[index] = item;
 	}
+	
+	public void addItem(@NotNull MercuryItem item) {
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] == null) {
+				items[i] = item;
+				return;
+			}
+		}
+	}
 
 	public @Nullable MercuryItem get(int index) {
 		if (index < 0 || index >= items.length) {
@@ -40,7 +49,7 @@ public class MercuryPlayerInventory {
 	 */
 	public void update(@NotNull MercuryPlayer player) {
 		int i = 0;
-		for (@Nullable MercuryItem item : items) {
+		for (MercuryItem item : items) {
 			if (item != null) {
 				// ToDo Add some cache to prevent converting items everytime.
 				bukkitInventory.setItem(i, item.toItemStack(player));

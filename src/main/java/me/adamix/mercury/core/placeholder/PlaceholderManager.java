@@ -2,7 +2,9 @@ package me.adamix.mercury.core.placeholder;
 
 import me.adamix.mercury.core.MercuryCore;
 import me.adamix.mercury.core.MercuryCorePlugin;
+import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.mob.MercuryMob;
+import me.adamix.mercury.core.mob.component.MobAttributeComponent;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.translation.Translation;
 import net.kyori.adventure.text.Component;
@@ -56,6 +58,8 @@ public class PlaceholderManager {
 			return switch (arg.lowerValue()) {
 				case "name" -> mob.getName();
 				case "type" -> mob.getEntityType().key().asString();
+				case "health" -> mob.getComponent(MobAttributeComponent.class).get(MercuryAttribute.HEALTH).toString();
+				case "max_health" -> mob.getComponent(MobAttributeComponent.class).get(MercuryAttribute.MAX_HEALTH).toString();
 				default -> throw new IllegalArgumentException("Unknown argument: " + arg.value());
 			};
 		});
