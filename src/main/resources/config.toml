@@ -1,3 +1,4 @@
 disabled_commands = [
     "example"
 ]
+core_database_filename = "/data/core_database.db"

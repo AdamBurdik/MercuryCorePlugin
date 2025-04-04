@@ -3,8 +3,10 @@ package me.adamix.mercury.core;
 import com.marcusslover.plus.lib.command.CommandManager;
 import me.adamix.mercury.core.command.ItemCommand;
 import me.adamix.mercury.core.command.MobCommand;
+import me.adamix.mercury.core.command.TestCommand;
 import me.adamix.mercury.core.command.types.ItemBlueprintParameterType;
 import me.adamix.mercury.core.command.types.MobBlueprintParameterType;
+import me.adamix.mercury.core.data.DummyData;
 import me.adamix.mercury.core.item.blueprint.MercuryItemBlueprint;
 import me.adamix.mercury.core.listener.entity.EntityEventListener;
 import me.adamix.mercury.core.listener.player.PlayerEventListener;
@@ -17,6 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import revxrsal.commands.Lamp;
 import revxrsal.commands.bukkit.BukkitLamp;
 import revxrsal.commands.bukkit.actor.BukkitCommandActor;
+
+import java.util.UUID;
 
 public class MercuryCorePlugin extends JavaPlugin {
 	private static MercuryCorePlugin instance;
@@ -63,6 +67,7 @@ public class MercuryCorePlugin extends JavaPlugin {
 
 		lamp.register(new ItemCommand());
 		lamp.register(new MobCommand());
+		lamp.register(new TestCommand());
 	}
 
 	public static ComponentLogger getCoreLogger() {

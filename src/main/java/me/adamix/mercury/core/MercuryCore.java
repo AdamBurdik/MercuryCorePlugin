@@ -3,9 +3,9 @@ package me.adamix.mercury.core;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.marcusslover.plus.lib.task.Task;
-import lombok.Getter;
 import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
+import me.adamix.mercury.core.data.*;
 import me.adamix.mercury.core.item.ItemManager;
 import me.adamix.mercury.core.item.blueprint.ItemBlueprintManager;
 import me.adamix.mercury.core.mob.DummyMobBlueprint;
@@ -19,7 +19,6 @@ import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
 import net.kyori.adventure.key.Key;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
@@ -27,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -40,6 +40,7 @@ public class MercuryCore {
 	private static MobManager mobManager;
 	private static PlayerManager playerManager;
 	private static MercuryProtocol protocol;
+	private static DataManager dataManager;
 
 	/**
 	 * Loads all necessary data for core plugin.
@@ -70,9 +71,12 @@ public class MercuryCore {
 		mobManager = new MobManager();
 		mobManager.registerAllEntityBlueprints(MercuryCorePlugin.getFolderPath());
 		mobManager.registerBlueprint(Key.key("mercury", "test"), new DummyMobBlueprint());
+		dataManager = new DataManager(MercuryCorePlugin.getFolderPath() + coreConfiguration.getString("core_database_filename"));
 
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocol = new MercuryProtocol(protocolManager);
+
+		dataManager.registerDataHolder(new DummyDataHolder(), DummyData.class);
 	}
 
 	/**
@@ -84,6 +88,7 @@ public class MercuryCore {
 	public static void unload() {
 		translationManager.unloadTranslations();
 		blueprintManager.unloadAllItems();
+		dataManager.close();
 	}
 
 	/**
@@ -188,6 +193,15 @@ public class MercuryCore {
 	}
 
 	/**
+	 * Retrieves data manager instance.
+	 * @return {@link DataManager} instance.
+	 */
+	@ApiStatus.Internal
+	public static DataManager dataManager() {
+		return dataManager;
+	}
+
+	/**
 	 * Retrieves instance of mercury protocol.
 	 * @return {@link MercuryProtocol} instance.
 	 */
@@ -214,6 +228,46 @@ public class MercuryCore {
 	public static void stopServer(@NonNull String reason) {
 		plugin.getComponentLogger().error("MercuryCore stopped the server! Reason: {}!", reason);
 		plugin.getServer().shutdown();
+	}
+
+	/**
+	 * Loads data from database into cache.
+	 * @param uuid unique id of data.
+	 * @param clazz the class of data to load.
+	 * @param <T> the type of data. Must implement {@link DataInstance}.
+	 */
+	public static <T extends DataInstance> void loadData(@NotNull UUID uuid, Class<T> clazz) {
+		dataManager.loadData(uuid, clazz);
+	}
+
+	/**
+	 * Unloads data from cache. DOES NOT SAVE TO DATABASE
+	 * @param uuid unique id of data.
+	 * @param <T> the type of data. Must implement {@link DataInstance}.
+	 */
+	public static <T extends DataInstance> void unloadData(@NotNull UUID uuid, Class<T> clazz) {
+		dataManager.unloadData(uuid, clazz);
+	}
+
+	/**
+	 * Retrieveds data from cache.
+	 * @param uuid unique id of data.
+	 * @param clazz the class of data to retrieve.
+	 * @return {@link T} instance.
+	 * @param <T> the type of data. Must implement {@link DataInstance}.
+	 */
+	public static <T extends DataInstance> @NotNull T getData(@NotNull UUID uuid, Class<T> clazz) {
+		return dataManager.getData(uuid, clazz);
+	}
+
+	/**
+	 * Saves data from cache to database. DOES NOT UNLOAD FROM CACHE
+	 * @param uuid unique id of data.
+	 * @param clazz the class of data to save.
+	 * @param <T> the type of data. Must implement {@link DataInstance}
+	 */
+	public static <T extends DataInstance> void saveData(@NotNull UUID uuid, Class<T> clazz) {
+		dataManager.saveData(uuid, clazz);
 	}
 
 	/**
