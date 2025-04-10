@@ -7,7 +7,10 @@ import me.adamix.mercury.core.command.TestCommand;
 import me.adamix.mercury.core.command.types.ItemBlueprintParameterType;
 import me.adamix.mercury.core.command.types.MobBlueprintParameterType;
 import me.adamix.mercury.core.data.DummyData;
+import me.adamix.mercury.core.event.EventListener;
+import me.adamix.mercury.core.event.command.ServerCommandEvent;
 import me.adamix.mercury.core.item.blueprint.MercuryItemBlueprint;
+import me.adamix.mercury.core.listener.command.CommandListener;
 import me.adamix.mercury.core.listener.entity.EntityEventListener;
 import me.adamix.mercury.core.listener.player.PlayerEventListener;
 import me.adamix.mercury.core.mob.blueprint.MercuryMobBlueprint;
@@ -33,6 +36,7 @@ public class MercuryCorePlugin extends JavaPlugin {
 		// ToDO Move event listener registration to different place. Maybe using MercuryCore
 		Bukkit.getPluginManager().registerEvents(new EntityEventListener(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerEventListener(), this);
+		Bukkit.getPluginManager().registerEvents(new CommandListener(), this);
 
 		removeCommands();
 		registerCommands();

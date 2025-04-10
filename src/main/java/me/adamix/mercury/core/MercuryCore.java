@@ -3,9 +3,12 @@ package me.adamix.mercury.core;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.marcusslover.plus.lib.task.Task;
+import lombok.Getter;
 import lombok.NonNull;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
 import me.adamix.mercury.core.data.*;
+import me.adamix.mercury.core.event.EventNode;
+import me.adamix.mercury.core.event.MercuryEvent;
 import me.adamix.mercury.core.item.ItemManager;
 import me.adamix.mercury.core.item.blueprint.ItemBlueprintManager;
 import me.adamix.mercury.core.mob.DummyMobBlueprint;
@@ -31,6 +34,8 @@ import java.util.UUID;
 
 
 public class MercuryCore {
+	@Getter
+	private static final EventNode<MercuryEvent> globalEventNode = EventNode.all("global");
 	private static MercuryCorePlugin plugin;
 	private static MercuryConfiguration coreConfiguration;
 	private static TranslationManager translationManager;
