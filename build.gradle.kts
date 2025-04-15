@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.adamix.mercury.core"
-version = "0.1.0"
+version = "0.2.0"
 
 var lampVersion = "4.0.0-rc.9"
 

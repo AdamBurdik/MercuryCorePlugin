@@ -18,10 +18,13 @@ import me.adamix.mercury.core.placeholder.PlaceholderManager;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.player.PlayerManager;
 import me.adamix.mercury.core.protocol.MercuryProtocol;
+import me.adamix.mercury.core.protocol.api.ProtocolHandler;
+import me.adamix.mercury.core.protocol.v1_21_4.Handler_1_21_4;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
 import net.kyori.adventure.key.Key;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
@@ -29,7 +32,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -64,6 +66,22 @@ public class MercuryCore {
 		}
 		coreConfiguration = new MercuryConfiguration(file);
 
+		String version = Bukkit.getServer().getBukkitVersion().split("-")[0];
+		ProtocolHandler protocolHandler = switch (version) {
+			case "1.21.4" -> new Handler_1_21_4();
+			// ToDo Add more versions
+
+			default -> {
+				// No protocol version can be found for bukkit version
+				Boolean shutDown = coreConfiguration.getBoolean("missing_protocol_shutdown");
+				if (Boolean.TRUE.equals(shutDown)) {
+					stop("No protocol version has been found for " + version);
+				}
+				throw new IllegalStateException("Current version is not supported by protocol version: " + version + "!");
+			}
+		};
+		plugin.getComponentLogger().info("Protocol handler has been found: {}", protocolHandler.getClass().getSimpleName());
+
 		PlayerDefaults.load(MercuryCorePlugin.getFolderPath());
 
 		playerManager = new PlayerManager();
@@ -79,7 +97,7 @@ public class MercuryCore {
 		dataManager = new DataManager(MercuryCorePlugin.getFolderPath() + coreConfiguration.getString("core_database_filename"));
 
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		protocol = new MercuryProtocol(protocolManager);
+		protocol = new MercuryProtocol(protocolManager, protocolHandler);
 
 		dataManager.registerDataHolder(new DummyDataHolder(), DummyData.class);
 	}
@@ -226,13 +244,13 @@ public class MercuryCore {
 	}
 
 	/**
-	 * Stops the server with specified reason.
+	 * Stops the core plugin with specified reason.
 	 * <br>
-	 * @param reason reason why server was stopped.
+	 * @param reason reason why core plugin was stopped.
 	 */
-	public static void stopServer(@NonNull String reason) {
-		plugin.getComponentLogger().error("MercuryCore stopped the server! Reason: {}!", reason);
-		plugin.getServer().shutdown();
+	public static void stop(@NonNull String reason) {
+		plugin.getComponentLogger().error("MercuryCore has been stopped! Reason: {}!", reason);
+		Bukkit.getPluginManager().disablePlugin(plugin);
 	}
 
 	/**
@@ -255,7 +273,7 @@ public class MercuryCore {
 	}
 
 	/**
-	 * Retrieveds data from cache.
+	 * Retrieves data from cache.
 	 * @param uuid unique id of data.
 	 * @param clazz the class of data to retrieve.
 	 * @return {@link T} instance.

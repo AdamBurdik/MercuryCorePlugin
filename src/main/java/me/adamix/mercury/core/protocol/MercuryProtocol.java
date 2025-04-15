@@ -1,50 +1,28 @@
 package me.adamix.mercury.core.protocol;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedDataValue;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-import me.adamix.mercury.core.protocol.data.EntityMetadata;
+import me.adamix.mercury.core.player.MercuryPlayer;
+import me.adamix.mercury.core.protocol.api.ProtocolHandler;
+import me.adamix.mercury.core.protocol.api.data.EntityMetadata;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MercuryProtocol {
 	private final @NotNull ProtocolManager protocolManager;
+	private final @NotNull ProtocolHandler handler;
 
-	public MercuryProtocol(@NotNull ProtocolManager protocolManager) {
+	public MercuryProtocol(@NotNull ProtocolManager protocolManager, @NotNull ProtocolHandler handler) {
 		this.protocolManager = protocolManager;
+		this.handler = handler;
 	}
 
-	public void sendEntityMetadata(@NotNull EntityMetadata metadata, @NotNull Player bukkitPlayer) {
-		PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+	public @NotNull EntityMetadata createEntityMetadata(@NotNull Entity bukkitEntity) {
+		return handler.createEntityMetadata(bukkitEntity);
+	}
 
-		packet.getIntegers().write(0, metadata.getEntity().getEntityId());
-		WrappedDataWatcher watcher = metadata.toWatcher();
-
-		// Not really sure why this list is needed but it works.
-		// https://www.spigotmc.org/threads/unable-to-modify-entity-metadata-packet-using-protocollib-1-19-3.582442/#post-4517187
-		final List<WrappedDataValue> wrappedDataValueList = new ArrayList<>();
-
-		for(final WrappedWatchableObject entry : watcher.getWatchableObjects()) {
-			if(entry == null) continue;
-
-			final WrappedDataWatcher.WrappedDataWatcherObject watcherObject = entry.getWatcherObject();
-			wrappedDataValueList.add(
-					new WrappedDataValue(
-							watcherObject.getIndex(),
-							watcherObject.getSerializer(),
-							entry.getRawValue()
-					)
-			);
-		}
-
-		packet.getDataValueCollectionModifier().write(0, wrappedDataValueList);
-		protocolManager.sendServerPacket(bukkitPlayer, packet);
-
+	public void sendEntityMetadata(@NotNull EntityMetadata metadata, @NotNull MercuryPlayer player) {
+		Player bukkitPlayer = player.getBukkitPlayer();
+		handler.sendEntityMetadata(metadata, bukkitPlayer, protocolManager);
 	}
 }

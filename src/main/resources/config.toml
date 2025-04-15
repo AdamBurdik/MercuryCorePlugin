@@ -1,3 +1,6 @@
+# Shutdowns the plugin when server is running on non-supported version for protocol
+missing_protocol_shutdown = true
+
 disabled_commands = [
     "example"
 ]

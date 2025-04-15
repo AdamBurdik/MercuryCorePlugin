@@ -80,7 +80,7 @@ public class TranslationManager {
 		File[] files = translationFolder.listFiles((file) -> file.isFile() && file.getName().endsWith(".toml"));
 		if (files == null) {
 			MercuryCorePlugin.getCoreLogger().error("No translation files has been found in {}! Please provide at least english!", translationFolder.getAbsolutePath());
-			MercuryCore.stopServer("No translation files has been found in " + translationFolder.getAbsolutePath());
+			MercuryCore.stop("No translation files has been found in " + translationFolder.getAbsolutePath());
 			return;
 		}
 		for (File file : files) {
@@ -90,7 +90,7 @@ public class TranslationManager {
 		// Stop server if player default translation is missing.
 		if (getTranslation(PlayerDefaults.getTranslationId()) == null) {
 			MercuryCorePlugin.getCoreLogger().error("Default translation for player is set to {} but it does not exist!", PlayerDefaults.getTranslationId());
-			MercuryCore.stopServer("Default translation for player is set to " + PlayerDefaults.getTranslationId() + " but it does not exist");
+			MercuryCore.stop("Default translation for player is set to " + PlayerDefaults.getTranslationId() + " but it does not exist");
 		}
 	}
 }

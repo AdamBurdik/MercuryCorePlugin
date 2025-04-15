@@ -1,8 +1,9 @@
-package me.adamix.mercury.core.protocol.data;
+package me.adamix.mercury.core.protocol.v1_21_4.data;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import lombok.Getter;
+import me.adamix.mercury.core.protocol.api.data.EntityMetadata;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.entity.Entity;
@@ -12,40 +13,45 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class EntityMetadata {
+public class EntityMetadata_1_21_4 implements EntityMetadata {
 	private final @NotNull Map<Integer, Object> metadataValues;
 	@Getter
-	private final @NotNull Entity entity;
+	private final @NotNull Entity bukkitEntity;
 
-	public EntityMetadata(@NotNull Entity entity) {
+	public EntityMetadata_1_21_4(@NotNull Entity bukkitEntity) {
 		this.metadataValues = new HashMap<>();
-		this.entity = entity;
+		this.bukkitEntity = bukkitEntity;
 	}
 
-	public @NotNull EntityMetadata setCustomName(@NotNull String name) {
+	@Override
+	public @NotNull EntityMetadata customName(@NotNull String name) {
 		metadataValues.put(2, Optional.of(WrappedChatComponent.fromChatMessage(name)[0].getHandle()));
 		return this;
 	}
 
-	public @NotNull EntityMetadata setCustomName(@NotNull Component name) {
+	@Override
+	public @NotNull EntityMetadata customName(@NotNull Component name) {
 		String json = GsonComponentSerializer.gson().serialize(name);
 		WrappedChatComponent wrapped = WrappedChatComponent.fromJson(json);
 		metadataValues.put(2, Optional.of(wrapped.getHandle()));
 		return this;
 	}
 
-	public @NotNull EntityMetadata setCustomNameVisible(boolean visible) {
-		metadataValues.put(3, visible);
+	@Override
+	public @NotNull EntityMetadata customNameVisible(boolean value) {
+		metadataValues.put(3, value);
 		return this;
 	}
 
-	public @NotNull EntityMetadata setSilent(boolean isSilent) {
-		metadataValues.put(4, isSilent);
+	@Override
+	public @NotNull EntityMetadata silent(boolean value) {
+		metadataValues.put(4, value);
 		return this;
 	}
 
-	public @NotNull EntityMetadata setNoGravity(boolean noGravity) {
-		metadataValues.put(5, noGravity);
+	@Override
+	public @NotNull EntityMetadata gravity(boolean value) {
+		metadataValues.put(5, value);
 		return this;
 	}
 
