@@ -66,22 +66,6 @@ public class MercuryCore {
 		}
 		coreConfiguration = new MercuryConfiguration(file);
 
-		String version = Bukkit.getServer().getBukkitVersion().split("-")[0];
-		ProtocolHandler protocolHandler = switch (version) {
-			case "1.21.4" -> new Handler_1_21_4();
-			// ToDo Add more versions
-
-			default -> {
-				// No protocol version can be found for bukkit version
-				Boolean shutDown = coreConfiguration.getBoolean("missing_protocol_shutdown");
-				if (Boolean.TRUE.equals(shutDown)) {
-					stop("No protocol version has been found for " + version);
-				}
-				throw new IllegalStateException("Current version is not supported by protocol version: " + version + "!");
-			}
-		};
-		plugin.getComponentLogger().info("Protocol handler has been found: {}", protocolHandler.getClass().getSimpleName());
-
 		PlayerDefaults.load(MercuryCorePlugin.getFolderPath());
 
 		playerManager = new PlayerManager();
@@ -97,7 +81,7 @@ public class MercuryCore {
 		dataManager = new DataManager(MercuryCorePlugin.getFolderPath() + coreConfiguration.getString("core_database_filename"));
 
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		protocol = new MercuryProtocol(protocolManager, protocolHandler);
+		protocol = new MercuryProtocol(protocolManager);
 
 		dataManager.registerDataHolder(new DummyDataHolder(), DummyData.class);
 	}
