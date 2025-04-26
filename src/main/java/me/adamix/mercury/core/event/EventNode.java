@@ -38,7 +38,11 @@ public class EventNode<E extends MercuryEvent> {
 		if (filter != null && filter.test(event)) {
 			return;
 		}
-		for (EventListener<E> listener : listenerMap.get(event.getClass())) {
+		List<EventListener<E>> listenerList = listenerMap.get(event.getClass());
+		if (listenerList == null) {
+			return;
+		}
+		for (EventListener<E> listener : listenerList) {
 			listener.run(event);
 		}
 		for (EventNode<E> childNode : childSet) {
