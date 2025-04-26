@@ -20,6 +20,7 @@ import me.adamix.mercury.core.player.PlayerManager;
 import me.adamix.mercury.core.protocol.MercuryProtocol;
 import me.adamix.mercury.core.protocol.api.ProtocolHandler;
 import me.adamix.mercury.core.protocol.v1_21_4.Handler_1_21_4;
+import me.adamix.mercury.core.script.ScriptManager;
 import me.adamix.mercury.core.toml.MercuryConfiguration;
 import me.adamix.mercury.core.translation.Translation;
 import me.adamix.mercury.core.translation.TranslationManager;
@@ -48,6 +49,7 @@ public class MercuryCore {
 	private static PlayerManager playerManager;
 	private static MercuryProtocol protocol;
 	private static DataManager dataManager;
+	private static ScriptManager scriptManager;
 
 	/**
 	 * Loads all necessary data for core plugin.
@@ -79,6 +81,8 @@ public class MercuryCore {
 		mobManager.registerAllEntityBlueprints(MercuryCorePlugin.getFolderPath());
 		mobManager.registerBlueprint(Key.key("mercury", "test"), new DummyMobBlueprint());
 		dataManager = new DataManager(MercuryCorePlugin.getFolderPath() + coreConfiguration.getString("core_database_filename"));
+		scriptManager = new ScriptManager();
+		scriptManager.loadScripts(MercuryCorePlugin.getFolderPath() + "/scripts");
 
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocol = new MercuryProtocol(protocolManager);
@@ -215,6 +219,15 @@ public class MercuryCore {
 	@ApiStatus.Internal
 	public static MercuryProtocol protocol() {
 		return protocol;
+	}
+
+	/**
+	 * Retrieves instance of script manager.
+	 * @return {@link ScriptManager} instance.
+	 */
+	@ApiStatus.Internal
+	public static ScriptManager scriptManager() {
+		return scriptManager;
 	}
 
 	/**

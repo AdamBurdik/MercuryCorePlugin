@@ -3,6 +3,7 @@ package me.adamix.mercury.core;
 import com.marcusslover.plus.lib.command.CommandManager;
 import me.adamix.mercury.core.command.ItemCommand;
 import me.adamix.mercury.core.command.MobCommand;
+import me.adamix.mercury.core.command.ScriptCommand;
 import me.adamix.mercury.core.command.TestCommand;
 import me.adamix.mercury.core.command.types.ItemBlueprintParameterType;
 import me.adamix.mercury.core.command.types.MobBlueprintParameterType;
@@ -72,6 +73,7 @@ public class MercuryCorePlugin extends JavaPlugin {
 		lamp.register(new ItemCommand());
 		lamp.register(new MobCommand());
 		lamp.register(new TestCommand());
+		lamp.register(new ScriptCommand());
 	}
 
 	public static ComponentLogger getCoreLogger() {

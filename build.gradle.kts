@@ -21,6 +21,7 @@ dependencies {
     implementation("org.tomlj:tomlj:1.1.1")
     implementation("com.marcusslover:plus:4.3.3-SNAPSHOT")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
+    implementation("org.luaj:luaj-jse:3.0.1")
 
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
