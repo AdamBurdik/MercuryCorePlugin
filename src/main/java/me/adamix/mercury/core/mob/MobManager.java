@@ -69,23 +69,25 @@ public class MobManager {
 	 * @param location location where mob should be spawned
 	 */
 	public void spawn(@NotNull MercuryMob mob, @NotNull Location location) {
-		 Mob bukkitMob = (Mob) MobUtils.spawnBareboneEntity(location, mob.getEntityType(), entity -> {
-			// Apply attributes
-			MobAttributeComponent attributeComponent = mob.getComponent(MobAttributeComponent.class);
+		Mob bukkitMob = (Mob) MobUtils.spawnBareboneEntity(location, mob.getEntityType(), entity -> {
+		// Apply attributes
+		MobAttributeComponent attributeComponent = mob.getComponent(MobAttributeComponent.class);
 			if (attributeComponent != null) {
 				if (entity instanceof LivingEntity livingEntity) {
 					attributeComponent.applyToEntity(livingEntity);
 				}
 			}
 		});
+		if (bukkitMob.isVisibleByDefault()) {
+			for (MercuryPlayer player : MercuryCore.playerManager().getPlayers()) {
+				mob.addViewer(player);
+			}
+		}
+
 		mobMap.put(bukkitMob.getUniqueId(), mob);
 		mob.setBukkitMob(bukkitMob);
 
-		// Apply name
-		for (Player bukkitPlayer : bukkitMob.getTrackedBy()) {
-			MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
-			mob.updateName(player);
-		}
+		mob.updateName();
 
 		EventHandler eventHandler = mob.getEventHandler();
 		if (eventHandler != null) {

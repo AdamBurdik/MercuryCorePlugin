@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -36,5 +37,9 @@ public class PlayerManager {
 
 	public void removePlayer(@NotNull UUID uuid) {
 		playerMap.remove(uuid);
+	}
+
+	public @NotNull Collection<MercuryPlayer> getPlayers() {
+		return playerMap.values();
 	}
 }

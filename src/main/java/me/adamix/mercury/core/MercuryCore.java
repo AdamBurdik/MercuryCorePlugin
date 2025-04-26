@@ -146,6 +146,15 @@ public class MercuryCore {
 	}
 
 	/**
+	 * Retrieves core plugin instance.
+	 * @return {@link MercuryCorePlugin} instance.
+	 */
+	@ApiStatus.Internal
+	public static MercuryCorePlugin corePlugin() {
+		return plugin;
+	}
+
+	/**
 	 * Retrieves translation manager instance.
 	 * <br>
 	 * @return {@link TranslationManager} instance.

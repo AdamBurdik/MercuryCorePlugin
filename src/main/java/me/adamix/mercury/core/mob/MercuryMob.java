@@ -1,9 +1,11 @@
 package me.adamix.mercury.core.mob;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import me.adamix.mercury.core.MercuryCore;
+import me.adamix.mercury.core.MercuryCorePlugin;
 import me.adamix.mercury.core.attribute.MercuryAttribute;
 import me.adamix.mercury.core.entity.MercuryEntity;
 import me.adamix.mercury.core.exception.MobNotSpawnedException;
@@ -11,6 +13,7 @@ import me.adamix.mercury.core.mob.attribute.MobAttributeContainer;
 import me.adamix.mercury.core.mob.component.MercuryMobComponent;
 import me.adamix.mercury.core.mob.component.MobAttributeComponent;
 import me.adamix.mercury.core.mob.event.EventHandler;
+import me.adamix.mercury.core.mob.viewable.Viewable;
 import me.adamix.mercury.core.player.MercuryPlayer;
 import me.adamix.mercury.core.protocol.api.data.EntityMetadata;
 import me.adamix.mercury.core.protocol.v1_21_4.data.EntityMetadata_1_21_4;
@@ -29,14 +32,14 @@ import java.util.UUID;
 
 
 @Getter
-public class MercuryMob implements MercuryEntity {
+public class MercuryMob implements MercuryEntity, Viewable {
 	@Setter(AccessLevel.PACKAGE)
 	private @Nullable Mob bukkitMob;
 	private final @NotNull EntityType entityType;
 	private final @NotNull String name;
 	private final @NotNull MercuryMobComponent[] components;
 	private final @Nullable EventHandler eventHandler;
-	private final Set<UUID> viewers = new HashSet<>();
+	private final Set<MercuryPlayer> viewers = new ObjectOpenHashSet<>();
 
 	public MercuryMob(
 			@NotNull EntityType entityType,
@@ -87,16 +90,19 @@ public class MercuryMob implements MercuryEntity {
 		return bukkitMob;
 	}
 
-	public double getMaxHealth() {
-		MobAttributeComponent component = getComponent(MobAttributeComponent.class);
-		if (component == null) {
-			return 0;
+	/**
+	 * Updates name for all viewers.
+	 */
+	public void updateName() {
+		for (MercuryPlayer viewer : viewers) {
+			updateName(viewer);
 		}
-
-		Double maxHealthValue = component.get(MercuryAttribute.MAX_HEALTH);
-		return maxHealthValue != null ? maxHealthValue.floatValue() : 0f;
 	}
 
+	/**
+	 * Updates name for specific player.
+	 * @param player player to update name for.
+	 */
 	public void updateName(@NotNull MercuryPlayer player) {
 		Component component = MercuryCore.placeholderManager().parse(name, player, Map.of("mob", this));
 
@@ -107,9 +113,28 @@ public class MercuryMob implements MercuryEntity {
 		MercuryCore.protocol().sendEntityMetadata(metadata, player);
 	}
 
-
 	@Override
 	public @Nullable LivingEntity getLivingEntity() {
 		return bukkitMob;
+	}
+
+	/**
+	 * Adds player to viewer list.
+	 * @param player player to add to viewer list.
+	 */
+	@Override
+	public void addViewer(@NotNull MercuryPlayer player) {
+		player.getBukkitPlayer().showEntity(MercuryCore.corePlugin(), getBukkitMob());
+		viewers.add(player);
+	}
+
+	/**
+	 * Removes player from viewer list.
+	 * @param player player to remove from viewer list.
+	 */
+	@Override
+	public void removeViewer(@NotNull MercuryPlayer player) {
+		player.getBukkitPlayer().hideEntity(MercuryCore.corePlugin(), getBukkitMob());
+		viewers.remove(player);
 	}
 }

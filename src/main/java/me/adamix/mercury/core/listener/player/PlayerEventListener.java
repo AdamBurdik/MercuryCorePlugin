@@ -49,14 +49,16 @@ public class PlayerEventListener implements Listener {
 		Player bukkitPlayer = event.getPlayer();
 		MercuryPlayer player = MercuryCore.getPlayer(bukkitPlayer.getUniqueId());
 
-		for (@NotNull Entity entity : event.getChunk().getEntities()) {
-			MercuryMob mob = MercuryCore.mobManager().getMob(entity.getUniqueId());
-			if (mob != null) {
-				// Mob names cannot be updated instantly. Therefore we wait for 1 tick
-				MercuryCore.runDelayed(1, () -> {
-					mob.updateName(player);
-				});
-			}
-		}
+		// Not sure if we still need this
+
+//		for (@NotNull Entity entity : event.getChunk().getEntities()) {
+//			MercuryMob mob = MercuryCore.mobManager().getMob(entity.getUniqueId());
+//			if (mob != null) {
+//				// Mob names cannot be updated instantly. Therefore we wait for 1 tick
+//				MercuryCore.runDelayed(1, () -> {
+//					mob.updateName(player);
+//				});
+//			}
+//		}
 	}
 }
