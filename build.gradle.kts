@@ -49,6 +49,12 @@ tasks.shadowJar {
     archiveVersion.set(project.version.toString())
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 tasks.build {
     dependsOn(tasks.shadowJar)
 }
