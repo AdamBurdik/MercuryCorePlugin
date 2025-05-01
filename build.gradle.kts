@@ -55,10 +55,6 @@ java {
     }
 }
 
-tasks.build {
-    dependsOn(tasks.shadowJar)
-}
-
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("-parameters")
 }

@@ -79,5 +79,5 @@ ToDO: Add documentation
 ```
 3. Build the project
 ```bash
-   gradlew build
+   gradlew shadowJar
 ```
