@@ -3,7 +3,7 @@ package me.adamix.mercury.core.protocol.v1_21_4.data;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import lombok.Getter;
-import me.adamix.mercury.core.protocol.api.data.EntityMetadata;
+import me.adamix.mercury.api.protocol.data.EntityMetadata;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.entity.Entity;

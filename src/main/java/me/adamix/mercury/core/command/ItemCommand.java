@@ -1,9 +1,11 @@
 package me.adamix.mercury.core.command;
 
-import me.adamix.mercury.core.MercuryCore;
-import me.adamix.mercury.core.item.MercuryItem;
-import me.adamix.mercury.core.item.blueprint.MercuryItemBlueprint;
-import me.adamix.mercury.core.player.MercuryPlayer;
+import me.adamix.mercury.api.MercuryCore;
+import me.adamix.mercury.api.item.MercuryItem;
+import me.adamix.mercury.api.item.blueprint.MercuryItemBlueprint;
+import me.adamix.mercury.api.player.MercuryPlayer;
+import me.adamix.mercury.core.item.CoreMercuryItem;
+import me.adamix.mercury.core.item.blueprint.CoreMercuryItemBlueprint;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 

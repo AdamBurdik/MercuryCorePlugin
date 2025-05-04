@@ -1,5 +1,6 @@
 package me.adamix.mercury.core.data;
 
+import me.adamix.mercury.api.data.DataHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;

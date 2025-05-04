@@ -1,23 +1,20 @@
 package me.adamix.mercury.core.utils;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import me.adamix.mercury.core.attribute.MercuryAttribute;
-import me.adamix.mercury.core.attribute.MercuryAttributeModifier;
-import me.adamix.mercury.core.toml.MercuryTable;
+import me.adamix.mercury.api.attribute.MercuryAttribute;
+import me.adamix.mercury.api.attribute.MercuryAttributeModifier;
+import me.adamix.mercury.api.configuration.MercuryTable;
+import me.adamix.mercury.core.attribute.CoreMercuryAttributeModifier;
 import net.kyori.adventure.key.Key;
-import org.bukkit.attribute.AttributeModifier;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.tomlj.TomlTable;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 public class TomlUtils {
 	public static Map<MercuryAttribute, MercuryAttributeModifier> parseAttributes(@NotNull MercuryTable table, @NotNull Key blueprintKey) {
-		Set<String> keySet = table.getTomlTable().keySet();
+		Set<String> keySet = table.keySet();
 		Map<MercuryAttribute, MercuryAttributeModifier> modifierMap = new Object2ObjectArrayMap<>();
 
 		for (String key : keySet) {
@@ -45,7 +42,7 @@ public class TomlUtils {
 				continue;
 			}
 
-			modifierMap.put(attribute, new MercuryAttributeModifier(attributeKey, value, operation));
+			modifierMap.put(attribute, new CoreMercuryAttributeModifier(attributeKey, value, operation));
 		}
 
 		return modifierMap;

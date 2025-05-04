@@ -21,23 +21,6 @@ The goal of Mercury Core is to provide an API for interacting with the server wi
 - Documentation and wiki
 
 ## Highlights
-### Creating custom mob blueprint
-```java
-public class DummyMobBlueprint extends MercuryMobBlueprint { 
-	public DummyMobBlueprint() {
-		super(
-				EntityType.ZOMBIE,
-				"Dummy Mob! <red>Hello <player:name> <mob:type> <mob:health>/<mob:max_health>!",
-				new MobAttributeContainer()
-						.set(MercuryAttribute.DAMAGE, 100d)
-						.set(MercuryAttribute.MAX_HEALTH, 2000d)
-						.set(MercuryAttribute.HEALTH, 2000d),
-				null
-
-		);
-	}
-```
-- [DummyMobBlueprint](https://github.com/AdamBurdik/MercuryCorePlugin/blob/master/src/main/java/me/adamix/mercury/core/mob/DummyMobBlueprint.java)
 
 ### Interacting with database
 ```java
@@ -54,19 +37,22 @@ MercuryCore.saveData(playerUuid, PlayerData.class);
 // Removes data from cache.
 MercuryCore.unloadData(playerUuid, PlayerData.class);
 ```
-- **Note:** Data holder needs to be registred for PlayerData
-
-### Getting data from toml configuration file
-```java
-File tomlFile = ...;
-
-MercuryConfiguration configuration = new MercuryConfiguration(tomlFile);
-@NotNull Key key = configuration.getKeySafe("id"); // If key is not present, it will throw an exception
-@Nullable String name = configuration.getString("name");
-```
+- **Note:** Data holder needs to be registered for PlayerData
 
 # How To Use
-ToDO: Add documentation
+To interact with mercury core you need [MercuryAPI](https://github.com/AdamBurdik/MercuryAPI)
+
+Retrieve api instance
+```java
+@Override
+public void onEnable() {
+    Plugin corePlugin = Bukkit.getPluginManager().getPlugin("MercuryCore");
+    if (corePlugin instanceof MercuryAPI api) {
+        MercuryCore.setInstance(api.getMercuryCore());
+    }
+}
+```
+After setting instance to mercury core, you are able to use static methods from MercuryCore
 
 # How To Build
 1. Clone the repository
@@ -79,5 +65,5 @@ ToDO: Add documentation
 ```
 3. Build the project
 ```bash
-   gradlew shadowJar
+   gradlew build
 ```

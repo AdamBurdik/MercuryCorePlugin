@@ -3,6 +3,7 @@ package me.adamix.mercury.core.data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import me.adamix.mercury.api.data.DataInstance;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;

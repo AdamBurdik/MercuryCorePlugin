@@ -2,6 +2,9 @@ name: MercuryCore
 version: 0.1.0
 main: me.adamix.mercury.core.MercuryCorePlugin
 description: Mercury Core Plugin
-author: ADAM_4644
+author: adamix.dev
 api-version: '1.21.4'
 depend: [ ProtocolLib ]
+commands:
+    ui:
+        description: test

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.adamix.mercury.core"
-version = "0.2.0"
+version = "0.3.1"
 
 var lampVersion = "4.0.0-rc.9"
 
@@ -14,11 +14,11 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/") }
     maven { url = uri("https://repo.dmulloy2.net/repository/public/") }
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
-    implementation("org.tomlj:tomlj:1.1.1")
     implementation("com.marcusslover:plus:4.3.3-SNAPSHOT")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
     implementation("org.luaj:luaj-jse:3.0.1")
@@ -38,6 +38,9 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+
+    implementation("com.github.AdamBurdik:MercuryAPI:724b5f1f82")
+    implementation("com.github.AdamBurdik:MercuryCommon:df6607fc5f")
 }
 
 tasks.test {
@@ -53,6 +56,10 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
     }
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
 }
 
 tasks.withType<JavaCompile> {

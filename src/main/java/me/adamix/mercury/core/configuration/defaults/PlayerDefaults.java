@@ -1,8 +1,9 @@
 package me.adamix.mercury.core.configuration.defaults;
 
 import lombok.Getter;
+import me.adamix.mercury.api.configuration.MercuryConfiguration;
+import me.adamix.mercury.common.configuration.toml.TomlConfiguration;
 import me.adamix.mercury.core.MercuryCorePlugin;
-import me.adamix.mercury.core.toml.MercuryConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +24,7 @@ public class PlayerDefaults {
 			MercuryCorePlugin.getCoreLogger().warn("Player default configuration file does not exist! Default hard-coded values will be used instead!");
 			return;
 		}
-		MercuryConfiguration configuration = new MercuryConfiguration(file);
+		MercuryConfiguration configuration = TomlConfiguration.create(file);
 
 		@Nullable String rawTranslationId = configuration.getString("translation_id");
 		if (rawTranslationId != null) {
