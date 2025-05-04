@@ -42,7 +42,20 @@ MercuryCore.unloadData(playerUuid, PlayerData.class);
 # How To Use
 To interact with mercury core you need [MercuryAPI](https://github.com/AdamBurdik/MercuryAPI)
 
-Retrieve api instance
+You can include it like this:
+
+```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+
+
+dependencies {
+    compileOnly("com.github.AdamBurdik:MercuryAPI:<commit>")
+}
+```
+
+Then you need to retrieve api instance.
 ```java
 @Override
 public void onEnable() {
