@@ -2,14 +2,14 @@ package me.adamix.mercury.core.item.blueprint;
 
 import me.adamix.mercury.api.attribute.AttributeContainer;
 import me.adamix.mercury.api.item.blueprint.MercuryItemBlueprint;
-import me.adamix.mercury.api.item.blueprint.MercuryItemBlueprintBuilder;
+import me.adamix.mercury.api.item.blueprint.ItemBlueprintBuilder;
 import me.adamix.mercury.api.item.component.MercuryItemComponent;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 
-public class CoreItemBlueprintBuilder implements MercuryItemBlueprintBuilder {
+public class CoreItemBlueprintBuilder implements ItemBlueprintBuilder {
 	private Key key;
 	private String name;
 	private Material material;
@@ -17,31 +17,31 @@ public class CoreItemBlueprintBuilder implements MercuryItemBlueprintBuilder {
 	private MercuryItemComponent[] components;
 
 	@Override
-	public @NotNull MercuryItemBlueprintBuilder key(@NotNull Key key) {
+	public @NotNull ItemBlueprintBuilder key(@NotNull Key key) {
 		this.key = key;
 		return this;
 	}
 
 	@Override
-	public @NotNull MercuryItemBlueprintBuilder name(@NotNull String name) {
+	public @NotNull ItemBlueprintBuilder name(@NotNull String name) {
 		this.name = name;
 		return this;
 	}
 
 	@Override
-	public @NotNull MercuryItemBlueprintBuilder material(@NotNull Material material) {
+	public @NotNull ItemBlueprintBuilder material(@NotNull Material material) {
 		this.material = material;
 		return this;
 	}
 
 	@Override
-	public @NotNull MercuryItemBlueprintBuilder attributes(@NotNull AttributeContainer attributeContainer) {
+	public @NotNull ItemBlueprintBuilder attributes(@NotNull AttributeContainer attributeContainer) {
 		this.attributeContainer = attributeContainer;
 		return this;
 	}
 
 	@Override
-	public @NotNull MercuryItemBlueprintBuilder components(@NotNull MercuryItemComponent... components) {
+	public @NotNull ItemBlueprintBuilder components(@NotNull MercuryItemComponent... components) {
 		this.components = components;
 		return this;
 	}
