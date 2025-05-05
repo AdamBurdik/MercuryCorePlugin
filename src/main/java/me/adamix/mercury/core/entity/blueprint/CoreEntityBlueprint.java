@@ -11,13 +11,15 @@ import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Set;
+
 public record CoreEntityBlueprint(
 		@NotNull Key key,
 		@NotNull MercuryEntityType type,
 		long health,
 		long maxHealth,
 		long flags,
-		@NotNull MercuryEntityComponent[] components,
+		@NotNull Set<MercuryEntityComponent> components,
 		@Nullable AttributeContainer attributeContainer
 ) implements MercuryEntityBlueprint {
 	@Override
@@ -29,7 +31,7 @@ public record CoreEntityBlueprint(
 				maxHealth,
 				flags,
 				attributeContainer,
-				new ObjectOpenHashSet<>(components)
+				components
 		);
 	}
 }
