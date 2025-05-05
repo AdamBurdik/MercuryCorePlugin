@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.adamix.mercury.core"
-version = "0.3.2"
+version = "0.3.3"
 
 var lampVersion = "4.0.0-rc.9"
 var mercuryApiCommit = "ae14b92eba"
