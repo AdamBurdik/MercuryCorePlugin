@@ -16,6 +16,7 @@ import me.adamix.mercury.api.item.blueprint.ItemBlueprintManager;
 import me.adamix.mercury.api.placeholder.PlaceholderManager;
 import me.adamix.mercury.api.protocol.MercuryProtocol;
 import me.adamix.mercury.common.configuration.toml.TomlConfiguration;
+import me.adamix.mercury.core.builders.CoreBuilderFactory;
 import me.adamix.mercury.core.configuration.defaults.PlayerDefaults;
 import me.adamix.mercury.core.data.*;
 import me.adamix.mercury.core.entity.CoreEntityManager;
@@ -41,6 +42,7 @@ public class MercuryCoreImpl extends MercuryCore {
 	@Getter
 	private final EventNode<MercuryEvent> globalEventNode = EventNode.all("global");
 	private final MercuryCorePlugin plugin;
+	private final MercuryBuilderFactory builders;
 	private MercuryConfiguration coreConfiguration;
 	private CoreTranslationManager translationManager;
 	private CoreItemManager itemManager;
@@ -55,6 +57,7 @@ public class MercuryCoreImpl extends MercuryCore {
 
 	public MercuryCoreImpl(MercuryCorePlugin plugin) {
 		this.plugin = plugin;
+		this.builders = new CoreBuilderFactory();
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class MercuryCoreImpl extends MercuryCore {
 
 	@Override
 	public @NotNull MercuryBuilderFactory getBuilderFactory() {
-		return null;
+		return builders;
 	}
 
 	@Override
