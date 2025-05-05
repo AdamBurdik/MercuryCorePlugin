@@ -8,6 +8,7 @@ group = "me.adamix.mercury.core"
 version = "0.3.1"
 
 var lampVersion = "4.0.0-rc.9"
+var mercuryApiCommit = "ae14b92eba"
 
 repositories {
     mavenCentral()
@@ -39,7 +40,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
-    implementation("com.github.AdamBurdik:MercuryAPI:724b5f1f82")
+    implementation("com.github.AdamBurdik:MercuryAPI:${mercuryApiCommit}")
     implementation("com.github.AdamBurdik:MercuryCommon:df6607fc5f")
 }
 
